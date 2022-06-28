@@ -1,5 +1,7 @@
 /book_admin/obj
 /book_admin/bin
+/book_admin/publish
+/book_admin/Connected Services
 /packages
 /.vs
 /azure-pipelines.yml
