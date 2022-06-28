@@ -1,0 +1,5 @@
+/simple_book/obj
+/simple_book/bin
+/packages
+/.vs
+/azure-pipelines.yml
