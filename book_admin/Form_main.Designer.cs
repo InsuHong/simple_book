@@ -32,12 +32,18 @@
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.기본설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Panel_list = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel_page = new System.Windows.Forms.Panel();
             this.combo_type = new System.Windows.Forms.ComboBox();
             this.txt_search = new System.Windows.Forms.TextBox();
             this.Btn_search = new System.Windows.Forms.Button();
             this.Btn_add = new System.Windows.Forms.Button();
+            this.button_view32 = new System.Windows.Forms.Button();
+            this.button_view1 = new System.Windows.Forms.Button();
+            this.button_view2 = new System.Windows.Forms.Button();
+            this.button_view4 = new System.Windows.Forms.Button();
+            this.button_view24 = new System.Windows.Forms.Button();
+            this.button_view10 = new System.Windows.Forms.Button();
+            this.Panel_list = new System.Windows.Forms.TableLayoutPanel();
+            this.panel_page = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,7 +53,7 @@
             this.파일ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(774, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(952, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -63,36 +69,15 @@
             // 기본설정ToolStripMenuItem
             // 
             this.기본설정ToolStripMenuItem.Name = "기본설정ToolStripMenuItem";
-            this.기본설정ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.기본설정ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.기본설정ToolStripMenuItem.Text = "기본설정";
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
-            // 
-            // Panel_list
-            // 
-            this.Panel_list.AutoScroll = true;
-            this.Panel_list.AutoScrollMargin = new System.Drawing.Size(0, 338);
-            this.Panel_list.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Panel_list.Location = new System.Drawing.Point(0, 24);
-            this.Panel_list.Name = "Panel_list";
-            this.Panel_list.Size = new System.Drawing.Size(774, 360);
-            this.Panel_list.TabIndex = 1;
-            this.Panel_list.WrapContents = false;
-            this.Panel_list.Paint += new System.Windows.Forms.PaintEventHandler(this.Panel_list_Paint);
-            // 
-            // panel_page
-            // 
-            this.panel_page.AutoScroll = true;
-            this.panel_page.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_page.Location = new System.Drawing.Point(0, 384);
-            this.panel_page.Name = "panel_page";
-            this.panel_page.Size = new System.Drawing.Size(774, 60);
-            this.panel_page.TabIndex = 2;
             // 
             // combo_type
             // 
@@ -100,7 +85,7 @@
             this.combo_type.Items.AddRange(new object[] {
             "제목",
             "비고"});
-            this.combo_type.Location = new System.Drawing.Point(16, 461);
+            this.combo_type.Location = new System.Drawing.Point(16, 535);
             this.combo_type.Name = "combo_type";
             this.combo_type.Size = new System.Drawing.Size(121, 20);
             this.combo_type.TabIndex = 3;
@@ -108,14 +93,14 @@
             // 
             // txt_search
             // 
-            this.txt_search.Location = new System.Drawing.Point(144, 461);
+            this.txt_search.Location = new System.Drawing.Point(144, 535);
             this.txt_search.Name = "txt_search";
             this.txt_search.Size = new System.Drawing.Size(208, 21);
             this.txt_search.TabIndex = 4;
             // 
             // Btn_search
             // 
-            this.Btn_search.Location = new System.Drawing.Point(359, 461);
+            this.Btn_search.Location = new System.Drawing.Point(359, 535);
             this.Btn_search.Name = "Btn_search";
             this.Btn_search.Size = new System.Drawing.Size(75, 23);
             this.Btn_search.TabIndex = 5;
@@ -125,7 +110,7 @@
             // 
             // Btn_add
             // 
-            this.Btn_add.Location = new System.Drawing.Point(495, 461);
+            this.Btn_add.Location = new System.Drawing.Point(495, 535);
             this.Btn_add.Name = "Btn_add";
             this.Btn_add.Size = new System.Drawing.Size(69, 23);
             this.Btn_add.TabIndex = 8;
@@ -133,19 +118,109 @@
             this.Btn_add.UseVisualStyleBackColor = true;
             this.Btn_add.Click += new System.EventHandler(this.Btn_add_Click);
             // 
+            // button_view32
+            // 
+            this.button_view32.Location = new System.Drawing.Point(783, 532);
+            this.button_view32.Name = "button_view32";
+            this.button_view32.Size = new System.Drawing.Size(30, 28);
+            this.button_view32.TabIndex = 81;
+            this.button_view32.Text = "32";
+            this.button_view32.UseVisualStyleBackColor = true;
+            this.button_view32.Click += new System.EventHandler(this.button_view32_Click);
+            // 
+            // button_view1
+            // 
+            this.button_view1.Location = new System.Drawing.Point(638, 532);
+            this.button_view1.Name = "button_view1";
+            this.button_view1.Size = new System.Drawing.Size(30, 28);
+            this.button_view1.TabIndex = 80;
+            this.button_view1.Text = "1";
+            this.button_view1.UseVisualStyleBackColor = true;
+            this.button_view1.Click += new System.EventHandler(this.button_view1_Click);
+            // 
+            // button_view2
+            // 
+            this.button_view2.Location = new System.Drawing.Point(667, 532);
+            this.button_view2.Name = "button_view2";
+            this.button_view2.Size = new System.Drawing.Size(30, 28);
+            this.button_view2.TabIndex = 79;
+            this.button_view2.Text = "2";
+            this.button_view2.UseVisualStyleBackColor = true;
+            this.button_view2.Click += new System.EventHandler(this.button_view2_Click);
+            // 
+            // button_view4
+            // 
+            this.button_view4.Location = new System.Drawing.Point(696, 532);
+            this.button_view4.Name = "button_view4";
+            this.button_view4.Size = new System.Drawing.Size(30, 28);
+            this.button_view4.TabIndex = 78;
+            this.button_view4.Text = "4";
+            this.button_view4.UseVisualStyleBackColor = true;
+            this.button_view4.Click += new System.EventHandler(this.button_view4_Click);
+            // 
+            // button_view24
+            // 
+            this.button_view24.Location = new System.Drawing.Point(754, 532);
+            this.button_view24.Name = "button_view24";
+            this.button_view24.Size = new System.Drawing.Size(30, 28);
+            this.button_view24.TabIndex = 77;
+            this.button_view24.Text = "24";
+            this.button_view24.UseVisualStyleBackColor = true;
+            this.button_view24.Click += new System.EventHandler(this.button_view24_Click);
+            // 
+            // button_view10
+            // 
+            this.button_view10.Location = new System.Drawing.Point(725, 532);
+            this.button_view10.Name = "button_view10";
+            this.button_view10.Size = new System.Drawing.Size(30, 28);
+            this.button_view10.TabIndex = 76;
+            this.button_view10.Text = "10";
+            this.button_view10.UseVisualStyleBackColor = true;
+            this.button_view10.Click += new System.EventHandler(this.button_view10_Click);
+            // 
+            // Panel_list
+            // 
+            this.Panel_list.ColumnCount = 2;
+            this.Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Panel_list.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Panel_list.Location = new System.Drawing.Point(0, 24);
+            this.Panel_list.Name = "Panel_list";
+            this.Panel_list.RowCount = 2;
+            this.Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.Panel_list.Size = new System.Drawing.Size(952, 456);
+            this.Panel_list.TabIndex = 82;
+            // 
+            // panel_page
+            // 
+            this.panel_page.AutoScroll = true;
+            this.panel_page.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel_page.Location = new System.Drawing.Point(0, 480);
+            this.panel_page.Name = "panel_page";
+            this.panel_page.Size = new System.Drawing.Size(952, 49);
+            this.panel_page.TabIndex = 83;
+            // 
             // Form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(774, 497);
+            this.ClientSize = new System.Drawing.Size(952, 562);
+            this.Controls.Add(this.panel_page);
+            this.Controls.Add(this.Panel_list);
+            this.Controls.Add(this.button_view32);
+            this.Controls.Add(this.button_view1);
+            this.Controls.Add(this.button_view2);
+            this.Controls.Add(this.button_view4);
+            this.Controls.Add(this.button_view24);
+            this.Controls.Add(this.button_view10);
             this.Controls.Add(this.Btn_add);
             this.Controls.Add(this.Btn_search);
             this.Controls.Add(this.txt_search);
             this.Controls.Add(this.combo_type);
-            this.Controls.Add(this.panel_page);
-            this.Controls.Add(this.Panel_list);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -165,12 +240,18 @@
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 기본설정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
-        private System.Windows.Forms.FlowLayoutPanel Panel_list;
-        private System.Windows.Forms.Panel panel_page;
         private System.Windows.Forms.ComboBox combo_type;
         private System.Windows.Forms.TextBox txt_search;
         private System.Windows.Forms.Button Btn_search;
         private System.Windows.Forms.Button Btn_add;
+        private System.Windows.Forms.Button button_view32;
+        private System.Windows.Forms.Button button_view1;
+        private System.Windows.Forms.Button button_view2;
+        private System.Windows.Forms.Button button_view4;
+        private System.Windows.Forms.Button button_view24;
+        private System.Windows.Forms.Button button_view10;
+        private System.Windows.Forms.TableLayoutPanel Panel_list;
+        private System.Windows.Forms.Panel panel_page;
     }
 }
 

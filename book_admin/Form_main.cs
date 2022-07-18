@@ -17,7 +17,8 @@ namespace book_admin
     public partial class Form_main : Form
     {
         public static SQLiteConnection conn;
-        int page_num = 10, now_page = 0;  //한번에 10개씩보여줌
+        int page_num = 10, now_page = 1, max_page = 0, layout_num = 0;  //한번에 10개씩보여줌
+        int table_cell_width = 0, table_cell_height = 0, table_col_count = 5, table_row_count = 2;
         private ArrayList ITEM_list = new ArrayList();
         private ArrayList ITEM_view = new ArrayList();
         private String search_type = "", search_text = "";
@@ -110,9 +111,49 @@ namespace book_admin
                 }
                 j++;
             }
+
+            Table_Clear();
             Reorder_Items();
             Page_Set();
         }
+
+        void Table_Clear()
+        {
+
+            TableLayoutPanel table_panel = Panel_list;
+            table_panel.Controls.Clear();
+            table_panel.RowStyles.Clear();
+            table_panel.ColumnStyles.Clear();
+            table_panel.ColumnCount = table_col_count;
+            table_panel.RowCount = table_row_count;
+            table_panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
+            table_panel.Padding = new Padding(0);
+            TableLayoutColumnStyleCollection styles1 = this.Panel_list.ColumnStyles;
+            TableLayoutRowStyleCollection styles2 = this.Panel_list.RowStyles;
+
+            if (table_col_count > 0 && table_row_count > 0)
+            {
+                table_panel.ColumnCount = table_col_count;
+                table_panel.RowCount = table_row_count;
+                int i, j;
+                foreach (ColumnStyle style in styles1)
+                {
+                    style.SizeType = SizeType.Percent;
+                    style.Width = (float)(100 / table_col_count);
+                }
+                foreach (RowStyle style in styles2)
+                {
+                    style.SizeType = SizeType.Percent;
+                    style.Height = (float)(100 / table_row_count);
+                }
+
+
+                table_cell_width = (int)(table_panel.Width / table_col_count);
+                table_cell_height = (int)(table_panel.Height / table_row_count);
+            }
+
+        }
+
 
         //검색결과 재정렬
         void Reorder_Items()
@@ -126,7 +167,7 @@ namespace book_admin
 
         private void Add_items(ITEMS item)
         {
-            int layout_width = 160, layout_height = 334;
+            int layout_width = table_cell_width, layout_height = table_cell_height;
 
             int item_idx = item.B_index;
             Button view_btn = null;
@@ -136,10 +177,10 @@ namespace book_admin
             pic_thum = new PictureBox()
             {
                 Width = layout_width,
-                Height = layout_height - 120,
+                Height = layout_height - 80,
                 //Dock = DockStyle.Top,
                 Dock = DockStyle.None,
-                BorderStyle = BorderStyle.FixedSingle,
+                BorderStyle = BorderStyle.None,
                 SizeMode = PictureBoxSizeMode.Zoom
 
             };
@@ -210,7 +251,7 @@ namespace book_admin
                 Dock = DockStyle.Bottom,
                 Multiline = true,
                 Width = layout_width,
-                Height = 40,
+                Height = 16,
                 TextAlign = HorizontalAlignment.Center,
                 //BorderStyle = BorderStyle.FixedSingle,
                 Text = item.B_title
@@ -226,7 +267,7 @@ namespace book_admin
                 TabStop = false,
                 Dock = DockStyle.Bottom,
                 Width = layout_width,
-                Height = 20,
+                Height = 16,
                 TextAlign = HorizontalAlignment.Center,
                 //BorderStyle = BorderStyle.FixedSingle,
                 Text = item.B_now_book + "권"
@@ -238,53 +279,53 @@ namespace book_admin
             {
                 Dock = DockStyle.None,
                 AutoSize = true,
-                Height = 30,
-                Location = new Point(5, 17),
+                Height = 20,
+                Location = new Point(1, 4),
                 TextAlign = ContentAlignment.MiddleLeft,
                 Text = "[" + item.num.ToString() + "]"
             };
             Button edit_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(60, 10),
-                Width = 40,
-                Height = 25,
+                Location = new Point(30, 0),
+                Width = 20,
+                Height = 20,
 
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "수정"
+                Text = "E"
             };
             edit_btn.Click += new EventHandler((sender, e) => Edit_items(sender, e, item_idx));
 
             Button del_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(110, 10),
-                Width = 40,
-                Height = 25,
+                Location = new Point(50, 0),
+                Width = 20,
+                Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "삭제"
+                Text = "X"
             };
             del_btn.Click += new EventHandler((sender, e) => Del_items(sender, e, item_idx));
 
             Button copy_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(160, 10),
-                Width = 40,
-                Height = 25,
+                Location = new Point(70, 0),
+                Width = 20,
+                Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "복사"
+                Text = "C"
             };
             copy_btn.Click += new EventHandler((sender, e) => Copy_items(sender, e, item_idx));
 
             view_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(210, 10),
-                Width = 40,
-                Height = 25,
+                Location = new Point(90, 0),
+                Width = 20,
+                Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Text = "보기"
+                Text = "V"
             };
             view_btn.Click += new EventHandler((sender, e) => View_items(sender, e, item_idx));
 
@@ -293,7 +334,7 @@ namespace book_admin
             {
                 Dock = DockStyle.Bottom,
                 Width = layout_width,
-                Height = 40
+                Height = 22
             };
             edit_panel.Controls.Add(label_num);
             edit_panel.Controls.Add(edit_btn);
@@ -311,7 +352,8 @@ namespace book_admin
             Panel temp_panel = new Panel()
             {
                 BorderStyle = BorderStyle.FixedSingle,
-                Margin = new Padding(1, 1, 1, 1),
+                Margin = new Padding(0),
+                Padding = new Padding(0),
                 Width = layout_width,
                 Height = layout_height
             };
@@ -567,6 +609,54 @@ namespace book_admin
                 }
                 Application.Exit();
             }
+        }
+
+        private void button_view1_Click(object sender, EventArgs e)
+        {
+            page_num = 1;
+            table_col_count = 1;
+            table_row_count = 1;
+            Page_reload();
+        }
+
+        private void button_view2_Click(object sender, EventArgs e)
+        {
+            page_num = 2;
+            table_col_count = 2;
+            table_row_count = 1;
+            Page_reload();
+        }
+
+        private void button_view4_Click(object sender, EventArgs e)
+        {
+            page_num = 6;
+            table_col_count = 3;
+            table_row_count = 2;
+            Page_reload();
+        }
+
+        private void button_view10_Click(object sender, EventArgs e)
+        {
+            page_num = 10;
+            table_col_count = 5;
+            table_row_count = 2;
+            Page_reload();
+        }
+
+        private void button_view24_Click(object sender, EventArgs e)
+        {
+            page_num = 24;
+            table_col_count = 6;
+            table_row_count = 4;
+            Page_reload();
+        }
+
+        private void button_view32_Click(object sender, EventArgs e)
+        {
+            page_num = 32;
+            table_col_count = 8;
+            table_row_count = 4;
+            Page_reload();
         }
 
         private void Panel_list_Paint(object sender, PaintEventArgs e)
