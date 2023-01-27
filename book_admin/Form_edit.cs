@@ -76,7 +76,7 @@ namespace book_admin
                    // GC.Collect();
                    // GC.WaitForPendingFinalizers();
                 }
-
+                reader.Close();
 
             }
             catch (Exception ex)
@@ -131,6 +131,7 @@ namespace book_admin
                 Debug.WriteLine(sql_que);
                 
                 cmd.ExecuteNonQuery();
+                
                 /*
                 if (conn.State == ConnectionState.Open) 
                 {
@@ -141,7 +142,7 @@ namespace book_admin
                 */
                 //cmd.Dispose();
                 //Debug.WriteLine(sql_que);
-               // Debug.WriteLine(conn.State.ToString() + "=>"+ ConnectionState.Open.ToString());
+                // Debug.WriteLine(conn.State.ToString() + "=>"+ ConnectionState.Open.ToString());
             }
             catch (Exception ex)
             {

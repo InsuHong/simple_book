@@ -30,7 +30,9 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.기본설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.환경설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DB가져오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.combo_type = new System.Windows.Forms.ComboBox();
             this.txt_search = new System.Windows.Forms.TextBox();
@@ -44,6 +46,8 @@
             this.button_view10 = new System.Windows.Forms.Button();
             this.Panel_list = new System.Windows.Forms.TableLayoutPanel();
             this.panel_page = new System.Windows.Forms.Panel();
+            this.label_state = new System.Windows.Forms.Label();
+            this.button_ftpup = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,22 +64,37 @@
             // 파일ToolStripMenuItem
             // 
             this.파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.기본설정ToolStripMenuItem,
+            this.환경설정ToolStripMenuItem,
+            this.DB가져오기ToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.종료ToolStripMenuItem});
             this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
             this.파일ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.파일ToolStripMenuItem.Text = "환경설정";
             // 
-            // 기본설정ToolStripMenuItem
+            // 환경설정ToolStripMenuItem
             // 
-            this.기본설정ToolStripMenuItem.Name = "기본설정ToolStripMenuItem";
-            this.기본설정ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.기본설정ToolStripMenuItem.Text = "기본설정";
+            this.환경설정ToolStripMenuItem.Name = "환경설정ToolStripMenuItem";
+            this.환경설정ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.환경설정ToolStripMenuItem.Text = "환경설정";
+            this.환경설정ToolStripMenuItem.Click += new System.EventHandler(this.환경설정ToolStripMenuItem_Click);
+            // 
+            // DB가져오기ToolStripMenuItem
+            // 
+            this.DB가져오기ToolStripMenuItem.Name = "DB가져오기ToolStripMenuItem";
+            this.DB가져오기ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.DB가져오기ToolStripMenuItem.Text = "DB가져오기";
+            this.DB가져오기ToolStripMenuItem.Click += new System.EventHandler(this.DB가져오기ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
@@ -110,7 +129,7 @@
             // 
             // Btn_add
             // 
-            this.Btn_add.Location = new System.Drawing.Point(495, 535);
+            this.Btn_add.Location = new System.Drawing.Point(440, 535);
             this.Btn_add.Name = "Btn_add";
             this.Btn_add.Size = new System.Drawing.Size(69, 23);
             this.Btn_add.TabIndex = 8;
@@ -201,12 +220,33 @@
             this.panel_page.Size = new System.Drawing.Size(952, 49);
             this.panel_page.TabIndex = 83;
             // 
+            // label_state
+            // 
+            this.label_state.AutoSize = true;
+            this.label_state.Location = new System.Drawing.Point(826, 536);
+            this.label_state.Name = "label_state";
+            this.label_state.Size = new System.Drawing.Size(17, 12);
+            this.label_state.TabIndex = 84;
+            this.label_state.Text = "...";
+            // 
+            // button_ftpup
+            // 
+            this.button_ftpup.Location = new System.Drawing.Point(515, 535);
+            this.button_ftpup.Name = "button_ftpup";
+            this.button_ftpup.Size = new System.Drawing.Size(79, 23);
+            this.button_ftpup.TabIndex = 85;
+            this.button_ftpup.Text = "DB내보내기";
+            this.button_ftpup.UseVisualStyleBackColor = true;
+            this.button_ftpup.Click += new System.EventHandler(this.button_ftpup_Click);
+            // 
             // Form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(952, 562);
+            this.Controls.Add(this.button_ftpup);
+            this.Controls.Add(this.label_state);
             this.Controls.Add(this.panel_page);
             this.Controls.Add(this.Panel_list);
             this.Controls.Add(this.button_view32);
@@ -226,6 +266,7 @@
             this.MinimizeBox = false;
             this.Name = "Form_main";
             this.Text = "책정보";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_main_FormClosing);
             this.Load += new System.EventHandler(this.Form_main_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -238,7 +279,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 파일ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 기본설정ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DB가져오기ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
         private System.Windows.Forms.ComboBox combo_type;
         private System.Windows.Forms.TextBox txt_search;
@@ -252,6 +293,10 @@
         private System.Windows.Forms.Button button_view10;
         private System.Windows.Forms.TableLayoutPanel Panel_list;
         private System.Windows.Forms.Panel panel_page;
+        private System.Windows.Forms.Label label_state;
+        private System.Windows.Forms.Button button_ftpup;
+        private System.Windows.Forms.ToolStripMenuItem 환경설정ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
     }
 }
 

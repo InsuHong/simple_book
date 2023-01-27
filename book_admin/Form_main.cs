@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,12 +28,44 @@ namespace book_admin
         Form_edit pop1;
         Form_view pop2;
         public static String connStr;
+        string ftp_server;
+        string ftp_path;
+        string ftp_file = "/data/db/book_list.db";
+        string ftp_user;
+        string ftp_pwd;
+        string start_db;
         public Form_main()
         {
             InitializeComponent();
-            String access_file = Application.StartupPath + @"\data\db\book_list.db;";
-            connStr = String.Format("Data Source={0}", access_file);
-            conn = new SQLiteConnection(connStr);
+            //FTP로 접속해서 서버파일 가져오기
+            try
+            {
+                label_state.Text = "FTP읽는중...";
+                DirectoryInfo di = new DirectoryInfo(Application.StartupPath + @"\data");
+                if (di.Exists == false) di.Create();
+
+                di = new DirectoryInfo(Application.StartupPath + @"\data/db");
+                if (di.Exists == false) di.Create();
+
+                di = new DirectoryInfo(Application.StartupPath + @"\data/thum");
+                if (di.Exists == false) di.Create();
+
+
+
+
+                read_ini();
+                if(start_db == "원격파일")
+                {
+                    ftp_download();
+                }
+            }
+            catch (Exception E)
+            {
+             //   Debug.WriteLine(E.ToString());
+                label_state.Text = "FTP오류";
+            }
+
+            db_connect();
             pop1 = new Form_edit();
             pop1.FormSendEvent += new Form_edit.FormSendDataHandler(Page_reload);
 
@@ -40,8 +73,38 @@ namespace book_admin
             combo_type.SelectedIndex = 0;
             Panel_list.VerticalScroll.Visible = false;
         }
+        void db_connect()
+        {
+            read_ini();
+            String access_file = Application.StartupPath + @"\data\db\book_list.db;";
+            connStr = String.Format("Data Source={0}", access_file);
+            conn = new SQLiteConnection(connStr);
 
+        }
 
+        private void make_ini()
+        {
+            List<string> outputList = new List<string>();
+            File.WriteAllLines(Application.StartupPath + "\\setup.ini", outputList, Encoding.UTF8);
+
+        }
+        void read_ini()
+        {
+            FileInfo fi = new FileInfo(Application.StartupPath + "\\setup.ini");
+            if (fi.Exists == false)
+            {
+                make_ini();
+            }
+            IniFile ini = new IniFile();
+            ini.Load(Application.StartupPath + "\\setup.ini");
+
+            ftp_server = ini["Simple Book Config"]["ftp_server"].ToString();
+            ftp_path = ini["Simple Book Config"]["ftp_path"].ToString();
+            ftp_user = ini["Simple Book Config"]["ftp_user"].ToString();
+            ftp_pwd = ini["Simple Book Config"]["ftp_pwd"].ToString();
+            start_db = ini["Simple Book Config"]["start_db"].ToString();
+
+        }
 
         void Page_reload()
         {
@@ -400,7 +463,7 @@ namespace book_admin
                         if (search_type == "비고" && reader["B_memo"].ToString().Contains(search_text)) search_ok = true;
                         
                     }
-                    Debug.WriteLine(search_ok.ToString());
+                    //Debug.WriteLine(search_ok.ToString());
                     if (search_ok == true)
                     {
                         //Debug.WriteLine("title => " + reader["B_title"].ToString());
@@ -417,6 +480,7 @@ namespace book_admin
                     }
 
                 }
+                reader.Close();
                 search_type = "";
                 search_text = "";
                 /*
@@ -486,6 +550,7 @@ namespace book_admin
                     sql_que = "delete from book_list where  B_index = " + item_idx.ToString() + "";
                     cmd = new SQLiteCommand(sql_que, conn);
                     cmd.ExecuteNonQuery();
+                    reader.Close();
                     /*
                     if (conn.State == ConnectionState.Open)
                     {
@@ -507,7 +572,7 @@ namespace book_admin
                         GC.WaitForPendingFinalizers();
                     }
                     */
-                    Debug.WriteLine(ex.Message);
+                   // Debug.WriteLine(ex.Message);
 
                 }
 
@@ -538,7 +603,7 @@ namespace book_admin
                 reader.Read();
                 
                 int Max_value = 0;
-                Debug.WriteLine(reader.GetValue(0).ToString());
+                //Debug.WriteLine(reader.GetValue(0).ToString());
                 if (reader.GetValue(0).ToString() == "")
                 {
                     sql_que = "insert into book_list (B_index, B_regdate) VALUES (1, '" + dateTime_str + "')";
@@ -554,9 +619,10 @@ namespace book_admin
                 }
 
                 cmd = new SQLiteCommand(sql_que, conn);
-                Debug.WriteLine(sql_que);
+                //Debug.WriteLine(sql_que);
                 cmd.ExecuteNonQuery();
-                
+                reader.Close();
+
                 /*
                 if (conn.State == ConnectionState.Open)
                 {
@@ -581,7 +647,7 @@ namespace book_admin
                     GC.WaitForPendingFinalizers();
                 }
                 */
-                Debug.WriteLine(ex.Message);
+               // Debug.WriteLine(ex.Message);
             }
 
         }
@@ -595,12 +661,17 @@ namespace book_admin
         {
             Serach_Start();
             Page_view(1);
+
         }
 
         private void 종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("종료하시겠습니까??", "프로그램 종료", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
+                if (start_db == "원격파일")
+                {
+                    ftp_upload();
+                }
                 if (conn.State == ConnectionState.Open)
                 {
                     conn.Close();  //Sql연결 닫기
@@ -635,6 +706,11 @@ namespace book_admin
             Page_reload();
         }
 
+        private void button_ftpup_Click(object sender, EventArgs e)
+        {
+            ftp_upload();
+        }
+
         private void button_view10_Click(object sender, EventArgs e)
         {
             page_num = 10;
@@ -651,12 +727,46 @@ namespace book_admin
             Page_reload();
         }
 
+
+
+        private void Form_main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (start_db == "원격파일")
+            {
+                ftp_upload();
+            }
+        }
+
+        private void DB가져오기ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            read_ini();
+            conn.Close();  //Sql연결 닫기
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            ftp_download();
+            db_connect();
+            Serach_Start();
+            Page_view(1);
+        }
+
+        private void 환경설정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form_config pop_config = new Form_config();
+            pop_config.ShowDialog();
+        }
+
         private void button_view32_Click(object sender, EventArgs e)
         {
             page_num = 32;
             table_col_count = 8;
             table_row_count = 4;
             Page_reload();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //UploadFileList("/data/thum");
+            DownloadFileList("/data/thum");
         }
 
         private void Panel_list_Paint(object sender, PaintEventArgs e)
@@ -671,6 +781,175 @@ namespace book_admin
             Serach_Start();
             Page_view(1);
         }
+
+        void ftp_download()
+        {
+            string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                    client.DownloadFile(file_path, Application.StartupPath + @"\data\db\book_list.db");
+                }
+                label_state.Text = "OK";
+                DownloadFileList("/data/thum"); //이미지 파일도 다운로드
+            }
+            catch (Exception E)
+            {
+                //Debug.WriteLine(E.ToString());
+                label_state.Text = "다운로드오류";
+            }
+
+
+        }
+
+        void ftp_upload()
+        {
+            conn.Close();  //Sql연결 닫기
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
+
+            try
+            {
+                //로컬파일로 임시저장
+                System.IO.File.Copy(Application.StartupPath + @"\data\db\book_list.db", Application.StartupPath + @"\data\db\book_list_temp.db", true);
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                    client.UploadFile(file_path, Application.StartupPath + @"\data\db\book_list.db");
+
+                }
+                label_state.Text = "OK";
+                UploadFileList("/data/thum"); //이미지 파일도 업로드
+            }
+            catch (Exception E)
+            {
+                //Debug.WriteLine(E.ToString());
+                label_state.Text = "업로드오류";
+            }
+            conn.Open();   //Sql연결 다시열기
+        }
+
+
+        private void UploadFileList(string source)
+        {
+            // 업로드할 경로의 속성을 구한다.
+            string url = "ftp://" + ftp_server + ftp_path + source;
+            String file_path = Application.StartupPath + source;
+            var attr = File.GetAttributes(file_path);
+            String temp_file;
+            // 만약 디렉토리라면..
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                // 디렉토리 정보를 가져온다.
+                DirectoryInfo dir = new DirectoryInfo(file_path);
+                // 디렉토리 안의 파일 리스트를 가져온다.
+                foreach (var item in dir.GetFiles())
+                {
+                    // 파일을 업로드한다.
+                    temp_file = source + @"\" + item.Name;
+                    UploadFileList(temp_file);
+                }
+                // 디렉토리 안의 하위 디렉토리 리스트를 가져온다.
+                foreach (var item in dir.GetDirectories())
+                {
+                    try
+                    {
+
+                        WebRequest request = WebRequest.Create(url);
+                        request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                        request.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                        using (var resp = (FtpWebResponse)request.GetResponse())
+                        {
+                            Console.WriteLine(resp.StatusCode);
+                        }
+
+                    }
+                    catch (WebException)
+                    {
+                        // 만약에 ftp에 디렉토리가 존재한다면 에러가 날 것이다.
+                    }
+                    // 디렉토리를 업로드한다.(재귀 함수 호출)
+                    UploadFileList(item.FullName);
+                }
+            }
+            else
+            {
+                // 디렉토리가 아닌 파일을 경우인데, 파일의 stream을 취득한다.
+                String remote_path = "ftp://" + ftp_server + ftp_path + source;
+                using (var client = new WebClient())
+                {
+                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                    //Debug.WriteLine(file_path + "=>" + remote_path);
+                    client.UploadFile(remote_path, file_path);
+                }
+                
+            }
+        }
+
+        private void DownloadFileList(string target)
+        {
+            string url = "ftp://" + ftp_server + ftp_path + target;
+            FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(url);
+            ftpRequest.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+            ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
+            FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse();
+            StreamReader streamReader = new StreamReader(response.GetResponseStream());
+
+            List<string> directories = new List<string>();
+
+            string line = streamReader.ReadLine();
+            Boolean is_dir = false;
+            String fname;
+            while (!string.IsNullOrEmpty(line))
+            {
+
+                fname = System.IO.Path.GetFileName(line);
+                directories.Add(fname);
+                line = streamReader.ReadLine();
+                is_dir = true;
+            }
+            streamReader.Close();
+
+            //Debug.WriteLine(target + " : " + is_dir.ToString());
+            // ftp 리스트를 돌린다.
+            String remote_path, local_path;
+
+            if (is_dir == true)
+            {
+                foreach (var item in directories)
+                {
+                    try
+                    {
+                        // 파일을 다운로드한다.
+                        //Debug.WriteLine(item);
+                        remote_path = "ftp://" + ftp_server + ftp_path + target + @"\" + item;
+                        local_path = Application.StartupPath + target + @"\" + item;
+                     //   Debug.WriteLine(remote_path + " => " + local_path);
+                        using (var client = new WebClient())
+                        {
+                            client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                            client.DownloadFile(remote_path, Application.StartupPath + target + @"\" + item);
+                        }
+
+                    }
+                    catch (WebException)
+                    {
+                        // 그러나 파일이 아닌 디렉토리의 경우는 에러가 발생한다.
+                        // 로컬 디렉토리를 만든다.
+                        Directory.CreateDirectory(Application.StartupPath + target + "\\" + item);
+                        // 디렉토리라면 재귀적 방법으로 다시 파일리스트를 탐색한다.
+                        DownloadFileList(target + "\\" + item);
+                    }
+                }
+            }
+           
+        }
+
+
 
         void Copy_items(object sender, EventArgs e, int item_idx)
         {
@@ -716,7 +995,7 @@ namespace book_admin
                     GC.WaitForPendingFinalizers();
                 }
                 */
-                    
+                reader.Close();
                 Serach_Start();
                 Page_view(1);
             }
@@ -730,7 +1009,7 @@ namespace book_admin
                     GC.WaitForPendingFinalizers();
                 }
 */
-                Debug.WriteLine(ex.Message);
+               // Debug.WriteLine(ex.Message);
 
             }
         }
