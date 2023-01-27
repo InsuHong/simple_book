@@ -763,11 +763,6 @@ namespace book_admin
             Page_reload();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //UploadFileList("/data/thum");
-            DownloadFileList("/data/thum");
-        }
 
         private void Panel_list_Paint(object sender, PaintEventArgs e)
         {
