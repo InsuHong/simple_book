@@ -222,10 +222,9 @@
             // 
             // label_state
             // 
-            this.label_state.AutoSize = true;
             this.label_state.Location = new System.Drawing.Point(826, 536);
             this.label_state.Name = "label_state";
-            this.label_state.Size = new System.Drawing.Size(17, 12);
+            this.label_state.Size = new System.Drawing.Size(126, 17);
             this.label_state.TabIndex = 84;
             this.label_state.Text = "...";
             // 

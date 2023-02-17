@@ -874,12 +874,46 @@ namespace book_admin
             else
             {
                 // 디렉토리가 아닌 파일을 경우인데, 파일의 stream을 취득한다.
-                String remote_path = "ftp://" + ftp_server + ftp_path + source;
-                using (var client = new WebClient())
+                String remote_path = "ftp://" + ftp_server + ftp_path + source.Replace(@"\", "/");
+                //Debug.WriteLine(remote_path);
+                //원격 파일사이즈
+                long remote_filesize = 0;
+                FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(remote_path);
+                ftpRequest.Method = WebRequestMethods.Ftp.GetFileSize;
+                ftpRequest.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                try
                 {
-                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
-                    //Debug.WriteLine(file_path + "=>" + remote_path);
-                    client.UploadFile(remote_path, file_path);
+                    using (FtpWebResponse response = (FtpWebResponse)ftpRequest.GetResponse())
+                    {
+                        remote_filesize = response.ContentLength;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    if (exception.Message.Contains("File unavailable"))
+                    {
+                        remote_filesize = 0;
+                    }
+
+                }
+
+
+                long local_filesize = 0;
+                FileInfo info = new FileInfo(file_path);
+                if (File.Exists(file_path))
+                {
+                    local_filesize = info.Length;
+                }
+
+                if (remote_filesize != local_filesize || remote_filesize == -1 || remote_filesize == 0)
+                {
+                    Debug.WriteLine(file_path + "(" + local_filesize.ToString() + ") =>" + remote_path + "(" + remote_filesize.ToString() + ") => ");
+                    using (var client = new WebClient())
+                    {
+                        client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                        //Debug.WriteLine(file_path + "=>" + remote_path);
+                        client.UploadFile(remote_path, file_path);
+                    }
                 }
                 
             }
@@ -887,7 +921,7 @@ namespace book_admin
 
         private void DownloadFileList(string target)
         {
-            string url = "ftp://" + ftp_server + ftp_path + target;
+            string url = "ftp://" + ftp_server + ftp_path + target.Replace(@"\", "/");
             FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(url);
             ftpRequest.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
             ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -921,15 +955,49 @@ namespace book_admin
                     {
                         // 파일을 다운로드한다.
                         //Debug.WriteLine(item);
-                        remote_path = "ftp://" + ftp_server + ftp_path + target + @"\" + item;
+                        remote_path = "ftp://" + ftp_server + ftp_path + target + @"/" + item;
                         local_path = Application.StartupPath + target + @"\" + item;
-                     //   Debug.WriteLine(remote_path + " => " + local_path);
-                        using (var client = new WebClient())
+
+                        //원격 파일사이즈
+                        ftpRequest = (FtpWebRequest) WebRequest.Create(remote_path);
+                        ftpRequest.Method = WebRequestMethods.Ftp.GetFileSize;
+                        ftpRequest.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                        long remote_filesize = 0;
+
+                        try
                         {
-                            client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
-                            client.DownloadFile(remote_path, Application.StartupPath + target + @"\" + item);
+                            using (response = (FtpWebResponse)ftpRequest.GetResponse())
+                            {
+                                remote_filesize = response.ContentLength;
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            if (exception.Message.Contains("File unavailable"))
+                            {
+                                remote_filesize = 0;
+                            }
+
                         }
 
+
+
+                        long local_filesize = 0;
+                        FileInfo info = new FileInfo(local_path);
+                        if (File.Exists(local_path))
+                        {
+                            local_filesize = info.Length;
+                        }
+                        
+                        if (remote_filesize != local_filesize || local_filesize == 0)
+                        {
+                            //Debug.WriteLine(remote_path + "(" + remote_filesize.ToString() + ") => " + local_path + "(" + local_filesize.ToString() + ")");
+                            using (var client = new WebClient())
+                            {
+                                client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                                client.DownloadFile(remote_path, local_path);
+                            }
+                        }
                     }
                     catch (WebException)
                     {
