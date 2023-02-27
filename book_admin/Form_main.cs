@@ -66,6 +66,22 @@ namespace book_admin
             }
 
             db_connect();
+
+            //기본 테이블 없을경우 생성
+
+            if (conn.State != ConnectionState.Open) conn.Open();   //Sql연결 열기
+            string sql_que = "SELECT COUNT(*) FROM sqlite_master WHERE name='book_list'";
+            SQLiteCommand cmd = new SQLiteCommand(sql_que, conn);
+            SQLiteDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            if (reader[0].ToString() == "0")
+            {
+                sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT,	'B_now_book'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
+                cmd = new SQLiteCommand(sql_que, conn);
+                cmd.ExecuteNonQuery();
+            }
+
+
             pop1 = new Form_edit();
             pop1.FormSendEvent += new Form_edit.FormSendDataHandler(Page_reload);
 
@@ -73,12 +89,15 @@ namespace book_admin
             combo_type.SelectedIndex = 0;
             Panel_list.VerticalScroll.Visible = false;
         }
+
         void db_connect()
         {
             read_ini();
             String access_file = Application.StartupPath + @"\data\db\book_list.db;";
             connStr = String.Format("Data Source={0}", access_file);
             conn = new SQLiteConnection(connStr);
+
+
 
         }
 
