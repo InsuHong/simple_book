@@ -34,6 +34,17 @@ namespace book_admin
         string ftp_user;
         string ftp_pwd;
         string start_db;
+
+        int local_file_count = 0;
+        int local_file_now = 0;
+
+        int server_file_count = 0;
+        int server_file_now = 0;
+
+        BackgroundWorker download_thum = new BackgroundWorker();
+        BackgroundWorker upload_thum = new BackgroundWorker();
+
+
         public Form_main()
         {
             InitializeComponent();
@@ -79,6 +90,24 @@ namespace book_admin
                 sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT,	'B_now_book'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
                 cmd = new SQLiteCommand(sql_que, conn);
                 cmd.ExecuteNonQuery();
+                conn.Close();
+                SQLiteConnection.ClearAllPools();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                
+                //생성날짜 변경
+                try
+                {
+                    String access_file = Application.StartupPath + @"\data\db\book_list.db";
+                    DateTime mkd_time = new DateTime(2000, 1, 1);
+                    File.SetLastWriteTime(access_file, mkd_time);
+                    db_connect();  //DB재연결
+                }
+                catch (Exception E)
+                {
+                     Debug.WriteLine(E.ToString());
+                    label_state.Text = "파일날자오류";
+                }
             }
 
 
@@ -763,9 +792,6 @@ namespace book_admin
             GC.Collect();
             GC.WaitForPendingFinalizers();
             ftp_download();
-            db_connect();
-            Serach_Start();
-            Page_view(1);
         }
 
         private void 환경설정ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -796,18 +822,48 @@ namespace book_admin
             Page_view(1);
         }
 
+
+
+
+        // ##################  FTP처리 시작
+
         void ftp_download()
         {
             string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
+            string local_path = Application.StartupPath + @"\data\db\book_list.db";
             try
             {
-                using (var client = new WebClient())
+                //로컬 수정일
+                DateTime local_modify = File.GetLastWriteTime(local_path);
+
+                //원격파일 수정일
+                DateTime ftp_modify = GetFTPFileTimestamp(file_path);
+
+                int date_result = DateTime.Compare(ftp_modify, local_modify);
+
+                //Debug.WriteLine("book_list.db / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
+                //FTP 최신파일만 다운로드
+                if(date_result > 0)
                 {
+                  using (var client = new WebClient())
+                  {
                     client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
-                    client.DownloadFile(file_path, Application.StartupPath + @"\data\db\book_list.db");
+                    client.DownloadFile(file_path, local_path);
+                  }
+                  //날짜를 FTP날짜와 같게만듦
+                  File.SetLastWriteTime(local_path, ftp_modify);
+
                 }
-                label_state.Text = "OK";
-                DownloadFileList("/data/thum"); //이미지 파일도 다운로드
+                label_state.Text = "다운로드 시작";
+
+                download_thum.WorkerReportsProgress = true;
+                download_thum.WorkerSupportsCancellation = true;
+                download_thum.DoWork += new DoWorkEventHandler(Download_Thum_DoWork);
+                download_thum.ProgressChanged += new ProgressChangedEventHandler(Download_Thum_ProgressChanged);
+                download_thum.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Download_Thum_RunWorkerCompleted);
+                download_thum.RunWorkerAsync("/data/thum");
+
+                //DownloadFileList("/data/thum"); //이미지 파일도 다운로드
             }
             catch (Exception E)
             {
@@ -818,6 +874,35 @@ namespace book_admin
 
         }
 
+        private void Download_Thum_DoWork(object sender, DoWorkEventArgs e)
+        {
+            String thum_dir = e.Argument as String;
+            DownloadFileList(thum_dir);
+//            e.Result = thum_dir;
+
+        }
+
+        // Progress 리포트 - UI Thread
+        void Download_Thum_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int tmep = e.ProgressPercentage;
+            
+            label_state.Text = server_file_now.ToString() + "/" + server_file_count.ToString();
+        }
+
+        private void Download_Thum_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+//            String thum_dir = e.Result.ToString();
+            label_state.Text = "다운로드 완료";
+            db_connect();
+            Serach_Start();
+            Page_view(1);
+        }
+
+
+
+
+
         void ftp_upload()
         {
             conn.Close();  //Sql연결 닫기
@@ -825,19 +910,66 @@ namespace book_admin
             GC.WaitForPendingFinalizers();
 
             string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
-
+            string local_path = Application.StartupPath + @"\data\db\book_list.db";
             try
             {
                 //로컬파일로 임시저장
                 System.IO.File.Copy(Application.StartupPath + @"\data\db\book_list.db", Application.StartupPath + @"\data\db\book_list_temp.db", true);
-                using (var client = new WebClient())
+
+                //로컬 수정일
+                DateTime local_modify = File.GetLastWriteTime(local_path);
+
+                //원격파일 수정일
+                DateTime ftp_modify = GetFTPFileTimestamp(file_path);
+
+                int date_result = DateTime.Compare(ftp_modify, local_modify);
+
+               // Debug.WriteLine("book_list.db / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
+                
+                //로컬 최신파일만 업로드
+                if (date_result < 0)
                 {
-                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
-                    client.UploadFile(file_path, Application.StartupPath + @"\data\db\book_list.db");
+                    using (var client = new WebClient())
+                    {
+                        client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                        client.UploadFile(file_path, Application.StartupPath + @"\data\db\book_list.db");
+
+                    }
+                    ftp_modify = GetFTPFileTimestamp(file_path);
+
+
+                    //날짜를 FTP날짜와 같게만듦
+
+                    conn.Close();
+                    SQLiteConnection.ClearAllPools();
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    try
+                    {
+                        File.SetLastWriteTime(local_path, ftp_modify);
+                        db_connect();  //DB재연결
+                    }
+                    catch (Exception E)
+                    {
+                        //Debug.WriteLine(E.ToString());
+                        label_state.Text = "파일날자오류";
+                    }
+
+
+
 
                 }
-                label_state.Text = "OK";
-                UploadFileList("/data/thum"); //이미지 파일도 업로드
+
+                label_state.Text = "업로드 시작";
+
+                upload_thum.WorkerReportsProgress = true;
+                upload_thum.WorkerSupportsCancellation = true;
+                upload_thum.DoWork += new DoWorkEventHandler(Upload_Thum_DoWork);
+                upload_thum.ProgressChanged += new ProgressChangedEventHandler(Upload_Thum_ProgressChanged);
+                upload_thum.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Upload_Thum_RunWorkerCompleted);
+                upload_thum.RunWorkerAsync("/data/thum");
+
+                //                UploadFileList("/data/thum"); //이미지 파일도 업로드
             }
             catch (Exception E)
             {
@@ -846,6 +978,30 @@ namespace book_admin
             }
             conn.Open();   //Sql연결 다시열기
         }
+
+
+
+        private void Upload_Thum_DoWork(object sender, DoWorkEventArgs e)
+        {
+            String thum_dir = e.Argument as String;
+            UploadFileList(thum_dir);
+//            e.Result = thum_dir;
+
+        }
+
+        // Progress 리포트 - UI Thread
+        void Upload_Thum_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            label_state.Text = local_file_now.ToString() + "/" + local_file_count.ToString();
+        }
+
+        private void Upload_Thum_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+//            String thum_dir = e.Result.ToString();
+            label_state.Text = "업로드 완료";
+        }
+
+
 
 
         private void UploadFileList(string source)
@@ -861,11 +1017,15 @@ namespace book_admin
                 // 디렉토리 정보를 가져온다.
                 DirectoryInfo dir = new DirectoryInfo(file_path);
                 // 디렉토리 안의 파일 리스트를 가져온다.
+                local_file_count = dir.GetFiles().Length;
+                local_file_now = 0;
                 foreach (var item in dir.GetFiles())
                 {
                     // 파일을 업로드한다.
+                    local_file_now++;
                     temp_file = source + @"\" + item.Name;
                     UploadFileList(temp_file);
+                    upload_thum.ReportProgress(local_file_now);
                 }
                 // 디렉토리 안의 하위 디렉토리 리스트를 가져온다.
                 foreach (var item in dir.GetDirectories())
@@ -896,6 +1056,7 @@ namespace book_admin
                 String remote_path = "ftp://" + ftp_server + ftp_path + source.Replace(@"\", "/");
                 //Debug.WriteLine(remote_path);
                 //원격 파일사이즈
+                /*
                 long remote_filesize = 0;
                 FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(remote_path);
                 ftpRequest.Method = WebRequestMethods.Ftp.GetFileSize;
@@ -923,20 +1084,45 @@ namespace book_admin
                 {
                     local_filesize = info.Length;
                 }
+                */
+                //로컬 수정일
+                DateTime local_modify = File.GetLastWriteTime(file_path);
 
-                if (remote_filesize != local_filesize || remote_filesize == -1 || remote_filesize == 0)
+                //원격파일 수정일
+                DateTime ftp_modify = GetFTPFileTimestamp(remote_path);
+
+                int date_result = DateTime.Compare(ftp_modify, local_modify);
+
+                //   Debug.WriteLine(source + " / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
+
+
+                // if (remote_filesize != local_filesize || remote_filesize == -1 || remote_filesize == 0)
+                if (date_result < 0)
                 {
-                    Debug.WriteLine(file_path + "(" + local_filesize.ToString() + ") =>" + remote_path + "(" + remote_filesize.ToString() + ") => ");
+                    //Debug.WriteLine(source + " (업로드) / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
                     using (var client = new WebClient())
                     {
                         client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
                         //Debug.WriteLine(file_path + "=>" + remote_path);
                         client.UploadFile(remote_path, file_path);
                     }
+                    //날짜를 FTP날짜와 같게만듦
+                    ftp_modify = GetFTPFileTimestamp(remote_path);
+                    try
+                    {
+                        File.SetLastWriteTime(file_path, ftp_modify);
+                    }
+                    catch (Exception E)
+                    {
+                        //Debug.WriteLine(E.ToString());
+                        label_state.Text = "파일날자오류";
+                    }
                 }
                 
             }
         }
+
+
 
         private void DownloadFileList(string target)
         {
@@ -961,11 +1147,11 @@ namespace book_admin
                 is_dir = true;
             }
             streamReader.Close();
-
-            //Debug.WriteLine(target + " : " + is_dir.ToString());
+            server_file_count = directories.Count();
+           // Debug.WriteLine("처리해야할 파일수 : " + server_file_count.ToString());
             // ftp 리스트를 돌린다.
             String remote_path, local_path;
-
+            server_file_now = 0;
             if (is_dir == true)
             {
                 foreach (var item in directories)
@@ -974,9 +1160,12 @@ namespace book_admin
                     {
                         // 파일을 다운로드한다.
                         //Debug.WriteLine(item);
+                        server_file_now++;
                         remote_path = "ftp://" + ftp_server + ftp_path + target + @"/" + item;
                         local_path = Application.StartupPath + target + @"\" + item;
+                        download_thum.ReportProgress(server_file_now);
 
+                        /*
                         //원격 파일사이즈
                         ftpRequest = (FtpWebRequest) WebRequest.Create(remote_path);
                         ftpRequest.Method = WebRequestMethods.Ftp.GetFileSize;
@@ -998,7 +1187,7 @@ namespace book_admin
                             }
 
                         }
-
+                        
 
 
                         long local_filesize = 0;
@@ -1007,16 +1196,31 @@ namespace book_admin
                         {
                             local_filesize = info.Length;
                         }
-                        
-                        if (remote_filesize != local_filesize || local_filesize == 0)
+                        */
+
+                        //로컬 수정일
+                        DateTime local_modify = File.GetLastWriteTime(local_path);
+
+                        //원격파일 수정일
+                        DateTime ftp_modify = GetFTPFileTimestamp(remote_path);
+
+                        int date_result = DateTime.Compare(ftp_modify, local_modify);
+                        //Debug.WriteLine(item + " / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
+
+
+                        //if (remote_filesize != local_filesize || local_filesize == 0)
+                        if (date_result > 0)
                         {
                             //Debug.WriteLine(remote_path + "(" + remote_filesize.ToString() + ") => " + local_path + "(" + local_filesize.ToString() + ")");
                             using (var client = new WebClient())
                             {
                                 client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
                                 client.DownloadFile(remote_path, local_path);
+                                //수정날짜를 FPT날짜와 같게 만듬
+                                File.SetLastWriteTime(local_path, ftp_modify);
                             }
                         }
+
                     }
                     catch (WebException)
                     {
@@ -1030,6 +1234,40 @@ namespace book_admin
             }
            
         }
+
+
+
+        private DateTime GetFTPFileTimestamp(string ftpURL)
+        {
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpURL);
+
+            request.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+
+            request.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+
+            try
+            {
+                using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+                {
+                    return response.LastModified;
+                }
+            }
+            catch (Exception exception)
+            {
+                return new DateTime(1970, 1, 1);
+                Debug.WriteLine("에러메시지 : " + exception.ToString());
+                /*
+                if (exception.Message.Contains("File unavailable"))
+                {
+                    return new DateTime(1970, 1, 1);
+                }
+                */
+                throw;
+            }
+        }
+
+        // ##################  FTP처리 끝
+
 
 
 
