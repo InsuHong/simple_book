@@ -18,7 +18,7 @@ namespace book_admin
     public partial class Form_main : Form
     {
         public static SQLiteConnection conn;
-        int page_num = 10, now_page = 1, max_page = 0, layout_num = 0;  //한번에 10개씩보여줌
+        int page_num = 10, now_page = 1, max_page = 0, layout_num = 0, page_btn_width = 40;  //한번에 10개씩보여줌
         int table_cell_width = 0, table_cell_height = 0, table_col_count = 5, table_row_count = 2;
         private ArrayList ITEM_list = new ArrayList();
         private ArrayList ITEM_view = new ArrayList();
@@ -176,8 +176,8 @@ namespace book_admin
             Button page_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point((page - 1) * 32, 10),
-                Width = 30,
+                Location = new Point((page - 1) * (page_btn_width + 2), 10),
+                Width = page_btn_width,
                 Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
 
@@ -226,7 +226,13 @@ namespace book_admin
             Table_Clear();
             Reorder_Items();
             Page_Set();
+            set_scoll_position(page);
         }
+        private void set_scoll_position(int page)
+        {
+            panel_page.AutoScrollPosition = new Point((page - 10) * (page_btn_width + 2), 0);
+        }
+
 
         void Table_Clear()
         {
