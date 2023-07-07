@@ -54,6 +54,7 @@ namespace book_admin
 
                 txt_title.Text = GF1.StripSlashes(reader["B_title"].ToString());
                 txt_now_book.Text = GF1.StripSlashes(reader["B_now_book"].ToString());
+                txt_now_novel.Text = GF1.StripSlashes(reader["B_now_novel"].ToString());
                 txt_memo.Text = GF1.StripSlashes(reader["B_memo"].ToString());
 
 
@@ -122,6 +123,7 @@ namespace book_admin
                 String sql_que = "update book_list set " +
                                   "  B_title = '" + GF1.SQLite_AddSlashes(txt_title.Text) + "', " +
                                   "  B_now_book = '" + GF1.SQLite_AddSlashes(txt_now_book.Text) + "', " +
+                                  "  B_now_novel = '" + GF1.SQLite_AddSlashes(txt_now_novel.Text) + "', " +
                                   "  B_img1 = '" + thum_file + "', " +
                                   "  B_memo = '" + GF1.SQLite_AddSlashes(txt_memo.Text) + "', " +
                                   "  B_editdate = '" + dateTime_str + "' " +
@@ -242,6 +244,29 @@ namespace book_admin
             nn--;
             if (nn < 0) nn = 0;
             txt_now_book.Text = nn.ToString();
+        }
+
+        private void btn_plus_n_Click(object sender, EventArgs e)
+        {
+            int nn = 0;
+            if (txt_now_novel.Text != "")
+            {
+                nn = Int32.Parse(txt_now_novel.Text);
+            }
+            nn++;
+            txt_now_novel.Text = nn.ToString();
+        }
+
+        private void bun_minus_n_Click(object sender, EventArgs e)
+        {
+            int nn = 0;
+            if (txt_now_novel.Text != "")
+            {
+                nn = Int32.Parse(txt_now_novel.Text);
+            }
+            nn--;
+            if (nn < 0) nn = 0;
+            txt_now_novel.Text = nn.ToString();
         }
     }
 }

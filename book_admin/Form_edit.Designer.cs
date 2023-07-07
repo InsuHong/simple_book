@@ -45,6 +45,11 @@ namespace book_admin
             this.label3 = new System.Windows.Forms.Label();
             this.btn_plus = new System.Windows.Forms.Button();
             this.bun_minus = new System.Windows.Forms.Button();
+            this.bun_minus_n = new System.Windows.Forms.Button();
+            this.btn_plus_n = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txt_now_novel = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pic_input)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,7 +85,7 @@ namespace book_admin
             // 
             // txt_memo
             // 
-            this.txt_memo.Location = new System.Drawing.Point(129, 280);
+            this.txt_memo.Location = new System.Drawing.Point(129, 320);
             this.txt_memo.Multiline = true;
             this.txt_memo.Name = "txt_memo";
             this.txt_memo.Size = new System.Drawing.Size(408, 94);
@@ -89,7 +94,7 @@ namespace book_admin
             // label10
             // 
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label10.Location = new System.Drawing.Point(12, 391);
+            this.label10.Location = new System.Drawing.Point(12, 431);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(540, 2);
             this.label10.TabIndex = 19;
@@ -97,7 +102,7 @@ namespace book_admin
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(50, 319);
+            this.label11.Location = new System.Drawing.Point(50, 359);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 12);
             this.label11.TabIndex = 20;
@@ -105,7 +110,7 @@ namespace book_admin
             // 
             // Btn_edit
             // 
-            this.Btn_edit.Location = new System.Drawing.Point(258, 414);
+            this.Btn_edit.Location = new System.Drawing.Point(258, 454);
             this.Btn_edit.Name = "Btn_edit";
             this.Btn_edit.Size = new System.Drawing.Size(76, 29);
             this.Btn_edit.TabIndex = 25;
@@ -125,7 +130,7 @@ namespace book_admin
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(12, 264);
+            this.label2.Location = new System.Drawing.Point(12, 304);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(540, 2);
             this.label2.TabIndex = 17;
@@ -135,9 +140,9 @@ namespace book_admin
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(51, 239);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 12);
+            this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 28;
-            this.label4.Text = "현재진행";
+            this.label4.Text = "현재만화책";
             // 
             // txt_now_book
             // 
@@ -175,11 +180,61 @@ namespace book_admin
             this.bun_minus.UseVisualStyleBackColor = true;
             this.bun_minus.Click += new System.EventHandler(this.bun_minus_Click);
             // 
+            // bun_minus_n
+            // 
+            this.bun_minus_n.Location = new System.Drawing.Point(284, 269);
+            this.bun_minus_n.Name = "bun_minus_n";
+            this.bun_minus_n.Size = new System.Drawing.Size(33, 23);
+            this.bun_minus_n.TabIndex = 38;
+            this.bun_minus_n.Text = "-";
+            this.bun_minus_n.UseVisualStyleBackColor = true;
+            this.bun_minus_n.Click += new System.EventHandler(this.bun_minus_n_Click);
+            // 
+            // btn_plus_n
+            // 
+            this.btn_plus_n.Location = new System.Drawing.Point(245, 269);
+            this.btn_plus_n.Name = "btn_plus_n";
+            this.btn_plus_n.Size = new System.Drawing.Size(33, 23);
+            this.btn_plus_n.TabIndex = 37;
+            this.btn_plus_n.Text = "+";
+            this.btn_plus_n.UseVisualStyleBackColor = true;
+            this.btn_plus_n.Click += new System.EventHandler(this.btn_plus_n_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(222, 274);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.TabIndex = 36;
+            this.label5.Text = "권";
+            // 
+            // txt_now_novel
+            // 
+            this.txt_now_novel.Location = new System.Drawing.Point(129, 269);
+            this.txt_now_novel.Name = "txt_now_novel";
+            this.txt_now_novel.Size = new System.Drawing.Size(84, 21);
+            this.txt_now_novel.TabIndex = 35;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(50, 274);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 34;
+            this.label6.Text = "현재소설";
+            // 
             // Form_edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(572, 462);
+            this.ClientSize = new System.Drawing.Size(572, 496);
+            this.Controls.Add(this.bun_minus_n);
+            this.Controls.Add(this.btn_plus_n);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txt_now_novel);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.bun_minus);
             this.Controls.Add(this.btn_plus);
             this.Controls.Add(this.label3);
@@ -222,5 +277,10 @@ namespace book_admin
         private Label label3;
         private Button btn_plus;
         private Button bun_minus;
+        private Button bun_minus_n;
+        private Button btn_plus_n;
+        private Label label5;
+        private TextBox txt_now_novel;
+        private Label label6;
     }
 }

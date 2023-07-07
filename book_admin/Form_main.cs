@@ -87,7 +87,7 @@ namespace book_admin
             reader.Read();
             if (reader[0].ToString() == "0")
             {
-                sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT,	'B_now_book'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
+                sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT,	'B_now_book'	INTEGER, 'B_now_novel'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
                 cmd = new SQLiteCommand(sql_que, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -294,7 +294,7 @@ namespace book_admin
             pic_thum = new PictureBox()
             {
                 Width = layout_width,
-                Height = layout_height - 80,
+                Height = layout_height - 90,
                 //Dock = DockStyle.Top,
                 Dock = DockStyle.None,
                 BorderStyle = BorderStyle.None,
@@ -368,7 +368,7 @@ namespace book_admin
                 Dock = DockStyle.Bottom,
                 Multiline = true,
                 Width = layout_width,
-                Height = 16,
+                Height = 26,
                 TextAlign = HorizontalAlignment.Center,
                 //BorderStyle = BorderStyle.FixedSingle,
                 Text = item.B_title
@@ -387,7 +387,7 @@ namespace book_admin
                 Height = 16,
                 TextAlign = HorizontalAlignment.Center,
                 //BorderStyle = BorderStyle.FixedSingle,
-                Text = item.B_now_book + "권"
+                Text = "만화 " + item.B_now_book + "권 / " + "소설 " + item.B_now_novel + "권"
             };
             
 
@@ -404,7 +404,7 @@ namespace book_admin
             Button edit_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(30, 0),
+                Location = new Point(50, 0),
                 Width = 20,
                 Height = 20,
 
@@ -416,7 +416,7 @@ namespace book_admin
             Button del_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(50, 0),
+                Location = new Point(70, 0),
                 Width = 20,
                 Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -427,7 +427,7 @@ namespace book_admin
             Button copy_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(70, 0),
+                Location = new Point(90, 0),
                 Width = 20,
                 Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -438,7 +438,7 @@ namespace book_admin
             view_btn = new Button()
             {
                 Dock = DockStyle.None,
-                Location = new Point(90, 0),
+                Location = new Point(110, 0),
                 Width = 20,
                 Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
@@ -521,12 +521,15 @@ namespace book_admin
                     if (search_ok == true)
                     {
                         //Debug.WriteLine("title => " + reader["B_title"].ToString());
-                        itms = new ITEMS
+                        String now_novel = "0";
+                        if ( reader["B_now_novel"].ToString() != string.Empty) now_novel = GF1.StripSlashes(reader["B_now_novel"].ToString());
+                      itms = new ITEMS
                       {
                           
                           B_index = Int32.Parse(reader["B_index"].ToString()),
                           B_title = GF1.StripSlashes(reader["B_title"].ToString()),
                           B_now_book = GF1.StripSlashes(reader["B_now_book"].ToString()),
+                          B_now_novel = now_novel,
                           B_img1 = reader["B_img1"].ToString(),
                       };
 
@@ -1306,6 +1309,7 @@ namespace book_admin
                 sql_que = "update book_list set " +
                                                  "  B_title = '" + GF1.SQLite_AddSlashes(reader["B_title"].ToString()) + "', " +
                                                  "  B_now_book = '" + GF1.SQLite_AddSlashes(reader["B_now_book"].ToString()) + "', " +
+                                                 "  B_now_novel = '" + GF1.SQLite_AddSlashes(reader["B_now_novel"].ToString()) + "', " +
                                                  "  B_img1 = '" + B_img1 + "', " +
                                                  "  B_memo = '" + GF1.SQLite_AddSlashes(reader["B_memo"].ToString()) + "' " +
                                                  " where B_index=" + Max_value.ToString();
@@ -1351,6 +1355,7 @@ namespace book_admin
             public int B_index { get; set; }
             public string B_title { get; set; }
             public string B_now_book { get; set; }
+            public string B_now_novel { get; set; }
             public string B_img1 { get; set; }
             public int B_order { get; set; }
             public string B_regdate { get; set; }
