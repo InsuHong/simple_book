@@ -53,6 +53,7 @@ namespace book_admin
                 reader.Read();
 
                 txt_title.Text = GF1.StripSlashes(reader["B_title"].ToString());
+                txt_tag.Text = GF1.StripSlashes(reader["B_tag"].ToString());
                 txt_now_book.Text = GF1.StripSlashes(reader["B_now_book"].ToString());
                 txt_now_novel.Text = GF1.StripSlashes(reader["B_now_novel"].ToString());
                 txt_memo.Text = GF1.StripSlashes(reader["B_memo"].ToString());
@@ -122,6 +123,7 @@ namespace book_admin
 
                 String sql_que = "update book_list set " +
                                   "  B_title = '" + GF1.SQLite_AddSlashes(txt_title.Text) + "', " +
+                                  "  B_tag = '" + GF1.SQLite_AddSlashes(txt_tag.Text) + "', " +
                                   "  B_now_book = '" + GF1.SQLite_AddSlashes(txt_now_book.Text) + "', " +
                                   "  B_now_novel = '" + GF1.SQLite_AddSlashes(txt_now_novel.Text) + "', " +
                                   "  B_img1 = '" + thum_file + "', " +

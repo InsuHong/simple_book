@@ -50,6 +50,8 @@ namespace book_admin
             this.label5 = new System.Windows.Forms.Label();
             this.txt_now_novel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txt_tag = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pic_input)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,7 +87,7 @@ namespace book_admin
             // 
             // txt_memo
             // 
-            this.txt_memo.Location = new System.Drawing.Point(129, 320);
+            this.txt_memo.Location = new System.Drawing.Point(129, 346);
             this.txt_memo.Multiline = true;
             this.txt_memo.Name = "txt_memo";
             this.txt_memo.Size = new System.Drawing.Size(408, 94);
@@ -94,7 +96,7 @@ namespace book_admin
             // label10
             // 
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label10.Location = new System.Drawing.Point(12, 431);
+            this.label10.Location = new System.Drawing.Point(12, 457);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(540, 2);
             this.label10.TabIndex = 19;
@@ -102,7 +104,7 @@ namespace book_admin
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(50, 359);
+            this.label11.Location = new System.Drawing.Point(50, 385);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(29, 12);
             this.label11.TabIndex = 20;
@@ -110,7 +112,7 @@ namespace book_admin
             // 
             // Btn_edit
             // 
-            this.Btn_edit.Location = new System.Drawing.Point(258, 454);
+            this.Btn_edit.Location = new System.Drawing.Point(258, 463);
             this.Btn_edit.Name = "Btn_edit";
             this.Btn_edit.Size = new System.Drawing.Size(76, 29);
             this.Btn_edit.TabIndex = 25;
@@ -130,7 +132,7 @@ namespace book_admin
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label2.Location = new System.Drawing.Point(12, 304);
+            this.label2.Location = new System.Drawing.Point(12, 330);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(540, 2);
             this.label2.TabIndex = 17;
@@ -138,7 +140,7 @@ namespace book_admin
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(51, 239);
+            this.label4.Location = new System.Drawing.Point(51, 273);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 12);
             this.label4.TabIndex = 28;
@@ -146,7 +148,7 @@ namespace book_admin
             // 
             // txt_now_book
             // 
-            this.txt_now_book.Location = new System.Drawing.Point(130, 234);
+            this.txt_now_book.Location = new System.Drawing.Point(130, 268);
             this.txt_now_book.Name = "txt_now_book";
             this.txt_now_book.Size = new System.Drawing.Size(84, 21);
             this.txt_now_book.TabIndex = 29;
@@ -154,7 +156,7 @@ namespace book_admin
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(223, 239);
+            this.label3.Location = new System.Drawing.Point(223, 273);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 31;
@@ -162,7 +164,7 @@ namespace book_admin
             // 
             // btn_plus
             // 
-            this.btn_plus.Location = new System.Drawing.Point(246, 234);
+            this.btn_plus.Location = new System.Drawing.Point(246, 268);
             this.btn_plus.Name = "btn_plus";
             this.btn_plus.Size = new System.Drawing.Size(33, 23);
             this.btn_plus.TabIndex = 32;
@@ -172,7 +174,7 @@ namespace book_admin
             // 
             // bun_minus
             // 
-            this.bun_minus.Location = new System.Drawing.Point(285, 234);
+            this.bun_minus.Location = new System.Drawing.Point(285, 268);
             this.bun_minus.Name = "bun_minus";
             this.bun_minus.Size = new System.Drawing.Size(33, 23);
             this.bun_minus.TabIndex = 33;
@@ -182,7 +184,7 @@ namespace book_admin
             // 
             // bun_minus_n
             // 
-            this.bun_minus_n.Location = new System.Drawing.Point(284, 269);
+            this.bun_minus_n.Location = new System.Drawing.Point(284, 303);
             this.bun_minus_n.Name = "bun_minus_n";
             this.bun_minus_n.Size = new System.Drawing.Size(33, 23);
             this.bun_minus_n.TabIndex = 38;
@@ -192,7 +194,7 @@ namespace book_admin
             // 
             // btn_plus_n
             // 
-            this.btn_plus_n.Location = new System.Drawing.Point(245, 269);
+            this.btn_plus_n.Location = new System.Drawing.Point(245, 303);
             this.btn_plus_n.Name = "btn_plus_n";
             this.btn_plus_n.Size = new System.Drawing.Size(33, 23);
             this.btn_plus_n.TabIndex = 37;
@@ -203,7 +205,7 @@ namespace book_admin
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(222, 274);
+            this.label5.Location = new System.Drawing.Point(222, 308);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(17, 12);
             this.label5.TabIndex = 36;
@@ -211,7 +213,7 @@ namespace book_admin
             // 
             // txt_now_novel
             // 
-            this.txt_now_novel.Location = new System.Drawing.Point(129, 269);
+            this.txt_now_novel.Location = new System.Drawing.Point(129, 303);
             this.txt_now_novel.Name = "txt_now_novel";
             this.txt_now_novel.Size = new System.Drawing.Size(84, 21);
             this.txt_now_novel.TabIndex = 35;
@@ -219,17 +221,35 @@ namespace book_admin
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(50, 274);
+            this.label6.Location = new System.Drawing.Point(50, 308);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 12);
             this.label6.TabIndex = 34;
             this.label6.Text = "현재소설";
+            // 
+            // txt_tag
+            // 
+            this.txt_tag.Location = new System.Drawing.Point(129, 237);
+            this.txt_tag.Name = "txt_tag";
+            this.txt_tag.Size = new System.Drawing.Size(415, 21);
+            this.txt_tag.TabIndex = 40;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(49, 242);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 39;
+            this.label7.Text = "검색태그";
             // 
             // Form_edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 496);
+            this.Controls.Add(this.txt_tag);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.bun_minus_n);
             this.Controls.Add(this.btn_plus_n);
             this.Controls.Add(this.label5);
@@ -282,5 +302,7 @@ namespace book_admin
         private Label label5;
         private TextBox txt_now_novel;
         private Label label6;
+        private TextBox txt_tag;
+        private Label label7;
     }
 }

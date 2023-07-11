@@ -103,8 +103,9 @@
             this.combo_type.FormattingEnabled = true;
             this.combo_type.Items.AddRange(new object[] {
             "제목",
-            "비고"});
-            this.combo_type.Location = new System.Drawing.Point(16, 810);
+            "비고",
+            "태그"});
+            this.combo_type.Location = new System.Drawing.Point(16, 811);
             this.combo_type.Name = "combo_type";
             this.combo_type.Size = new System.Drawing.Size(121, 20);
             this.combo_type.TabIndex = 3;
@@ -119,7 +120,7 @@
             // 
             // Btn_search
             // 
-            this.Btn_search.Location = new System.Drawing.Point(359, 810);
+            this.Btn_search.Location = new System.Drawing.Point(359, 811);
             this.Btn_search.Name = "Btn_search";
             this.Btn_search.Size = new System.Drawing.Size(75, 23);
             this.Btn_search.TabIndex = 5;
@@ -129,7 +130,7 @@
             // 
             // Btn_add
             // 
-            this.Btn_add.Location = new System.Drawing.Point(440, 810);
+            this.Btn_add.Location = new System.Drawing.Point(440, 811);
             this.Btn_add.Name = "Btn_add";
             this.Btn_add.Size = new System.Drawing.Size(69, 23);
             this.Btn_add.TabIndex = 8;
@@ -139,7 +140,7 @@
             // 
             // button_view32
             // 
-            this.button_view32.Location = new System.Drawing.Point(783, 807);
+            this.button_view32.Location = new System.Drawing.Point(783, 808);
             this.button_view32.Name = "button_view32";
             this.button_view32.Size = new System.Drawing.Size(30, 28);
             this.button_view32.TabIndex = 81;
@@ -149,7 +150,7 @@
             // 
             // button_view1
             // 
-            this.button_view1.Location = new System.Drawing.Point(638, 807);
+            this.button_view1.Location = new System.Drawing.Point(638, 808);
             this.button_view1.Name = "button_view1";
             this.button_view1.Size = new System.Drawing.Size(30, 28);
             this.button_view1.TabIndex = 80;
@@ -159,7 +160,7 @@
             // 
             // button_view2
             // 
-            this.button_view2.Location = new System.Drawing.Point(667, 807);
+            this.button_view2.Location = new System.Drawing.Point(667, 808);
             this.button_view2.Name = "button_view2";
             this.button_view2.Size = new System.Drawing.Size(30, 28);
             this.button_view2.TabIndex = 79;
@@ -169,7 +170,7 @@
             // 
             // button_view4
             // 
-            this.button_view4.Location = new System.Drawing.Point(696, 807);
+            this.button_view4.Location = new System.Drawing.Point(696, 808);
             this.button_view4.Name = "button_view4";
             this.button_view4.Size = new System.Drawing.Size(30, 28);
             this.button_view4.TabIndex = 78;
@@ -179,7 +180,7 @@
             // 
             // button_view24
             // 
-            this.button_view24.Location = new System.Drawing.Point(754, 807);
+            this.button_view24.Location = new System.Drawing.Point(754, 808);
             this.button_view24.Name = "button_view24";
             this.button_view24.Size = new System.Drawing.Size(30, 28);
             this.button_view24.TabIndex = 77;
@@ -189,7 +190,7 @@
             // 
             // button_view10
             // 
-            this.button_view10.Location = new System.Drawing.Point(725, 807);
+            this.button_view10.Location = new System.Drawing.Point(725, 808);
             this.button_view10.Name = "button_view10";
             this.button_view10.Size = new System.Drawing.Size(30, 28);
             this.button_view10.TabIndex = 76;
@@ -222,7 +223,7 @@
             // 
             // label_state
             // 
-            this.label_state.Location = new System.Drawing.Point(826, 811);
+            this.label_state.Location = new System.Drawing.Point(826, 812);
             this.label_state.Name = "label_state";
             this.label_state.Size = new System.Drawing.Size(126, 17);
             this.label_state.TabIndex = 84;
@@ -230,7 +231,7 @@
             // 
             // button_ftpup
             // 
-            this.button_ftpup.Location = new System.Drawing.Point(515, 810);
+            this.button_ftpup.Location = new System.Drawing.Point(515, 811);
             this.button_ftpup.Name = "button_ftpup";
             this.button_ftpup.Size = new System.Drawing.Size(79, 23);
             this.button_ftpup.TabIndex = 85;
@@ -243,7 +244,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1305, 835);
+            this.ClientSize = new System.Drawing.Size(1305, 840);
             this.Controls.Add(this.button_ftpup);
             this.Controls.Add(this.label_state);
             this.Controls.Add(this.panel_page);

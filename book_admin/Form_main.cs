@@ -87,7 +87,7 @@ namespace book_admin
             reader.Read();
             if (reader[0].ToString() == "0")
             {
-                sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT,	'B_now_book'	INTEGER, 'B_now_novel'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
+                sql_que = "CREATE TABLE 'book_list' (	'B_index'	INTEGER UNIQUE,	'B_title'	TEXT, 	'B_tag'	TEXT,	'B_now_book'	INTEGER, 'B_now_novel'	INTEGER,	'B_img1'	TEXT,	'B_memo'	TEXT,	'B_regdate'	TEXT,	'B_editdate'	TEXT,	PRIMARY KEY('B_index' AUTOINCREMENT))";
                 cmd = new SQLiteCommand(sql_que, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -492,37 +492,33 @@ namespace book_admin
 
         private void Serach_Start()
         {
-            Boolean search_ok = false;
             try
             {
                 if (conn.State != ConnectionState.Open) conn.Open();   //Sql연결 열기
-                string sql_que = "select * from book_list order by B_index desc";
+                string sql_where = "where (1=1) ";
+                if (search_type == "제목")
+                {
+                    sql_where = "where (B_title like '%"+ search_text + "%') or  (B_tag like '%" + search_text + "%')";
+                }
+                if (search_type == "비고")
+                {
+                    sql_where = "where (B_memo like '%" + search_text + "%')";
+                }
+                if (search_type == "태그")
+                {
+                    sql_where = "where (B_tag like '%" + search_text + "%')";
+                }
+
+                string sql_que = "select * from book_list " + sql_where + " order by B_index desc";
                 SQLiteCommand cmd = new SQLiteCommand(sql_que, conn);
                 SQLiteDataReader reader = cmd.ExecuteReader();
                 ITEM_list = new ArrayList(); //초기화
                 ITEMS itms;
                 while (reader.Read())
                 {
-                    //Debug.WriteLine(reader["B_index"].ToString());
-                    search_ok = false;
-
-
-                    if (search_text == "" )
-                    {
-                       search_ok = true;
-                    }
-                    else
-                    {
-                        if (search_type == "제목" && reader["B_title"].ToString().Contains(search_text)) search_ok = true;
-                        if (search_type == "비고" && reader["B_memo"].ToString().Contains(search_text)) search_ok = true;
-                        
-                    }
-                    //Debug.WriteLine(search_ok.ToString());
-                    if (search_ok == true)
-                    {
-                        //Debug.WriteLine("title => " + reader["B_title"].ToString());
-                        String now_novel = "0";
-                        if ( reader["B_now_novel"].ToString() != string.Empty) now_novel = GF1.StripSlashes(reader["B_now_novel"].ToString());
+                      //Debug.WriteLine("title => " + reader["B_title"].ToString());
+                      String now_novel = "0";
+                      if ( reader["B_now_novel"].ToString() != string.Empty) now_novel = GF1.StripSlashes(reader["B_now_novel"].ToString());
                       itms = new ITEMS
                       {
                           
@@ -534,31 +530,15 @@ namespace book_admin
                       };
 
                       ITEM_list.Add(itms);
-                    }
 
                 }
                 reader.Close();
                 search_type = "";
                 search_text = "";
-                /*
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();  //Sql연결 닫기
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                }
-                */
+
             }
             catch (Exception ex)
             {
-                /*
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();  //Sql연결 닫기
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                }
-                */
                 Debug.WriteLine("ERROR01:" + ex.Message);
             }
         }
