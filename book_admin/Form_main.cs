@@ -65,14 +65,14 @@ namespace book_admin
 
 
                 read_ini();
-                if(start_db == "원격파일")
+                if (start_db == "원격파일")
                 {
                     ftp_download();
                 }
             }
             catch (Exception E)
             {
-             //   Debug.WriteLine(E.ToString());
+                //   Debug.WriteLine(E.ToString());
                 label_state.Text = "FTP오류";
             }
 
@@ -94,7 +94,7 @@ namespace book_admin
                 SQLiteConnection.ClearAllPools();
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                
+
                 //생성날짜 변경
                 try
                 {
@@ -105,7 +105,7 @@ namespace book_admin
                 }
                 catch (Exception E)
                 {
-                     Debug.WriteLine(E.ToString());
+                    Debug.WriteLine(E.ToString());
                     label_state.Text = "파일날자오류";
                 }
             }
@@ -389,7 +389,7 @@ namespace book_admin
                 //BorderStyle = BorderStyle.FixedSingle,
                 Text = "만화 " + item.B_now_book + "권 / " + "소설 " + item.B_now_novel + "권"
             };
-            
+
 
 
             Label label_num = new Label()
@@ -498,7 +498,7 @@ namespace book_admin
                 string sql_where = "where (1=1) ";
                 if (search_type == "제목")
                 {
-                    sql_where = "where (B_title like '%"+ search_text + "%') or  (B_tag like '%" + search_text + "%')";
+                    sql_where = "where (B_title like '%" + search_text + "%') or  (B_tag like '%" + search_text + "%')";
                 }
                 if (search_type == "비고")
                 {
@@ -516,20 +516,20 @@ namespace book_admin
                 ITEMS itms;
                 while (reader.Read())
                 {
-                      //Debug.WriteLine("title => " + reader["B_title"].ToString());
-                      String now_novel = "0";
-                      if ( reader["B_now_novel"].ToString() != string.Empty) now_novel = GF1.StripSlashes(reader["B_now_novel"].ToString());
-                      itms = new ITEMS
-                      {
-                          
-                          B_index = Int32.Parse(reader["B_index"].ToString()),
-                          B_title = GF1.StripSlashes(reader["B_title"].ToString()),
-                          B_now_book = GF1.StripSlashes(reader["B_now_book"].ToString()),
-                          B_now_novel = now_novel,
-                          B_img1 = reader["B_img1"].ToString(),
-                      };
+                    //Debug.WriteLine("title => " + reader["B_title"].ToString());
+                    String now_novel = "0";
+                    if (reader["B_now_novel"].ToString() != string.Empty) now_novel = GF1.StripSlashes(reader["B_now_novel"].ToString());
+                    itms = new ITEMS
+                    {
 
-                      ITEM_list.Add(itms);
+                        B_index = Int32.Parse(reader["B_index"].ToString()),
+                        B_title = GF1.StripSlashes(reader["B_title"].ToString()),
+                        B_now_book = GF1.StripSlashes(reader["B_now_book"].ToString()),
+                        B_now_novel = now_novel,
+                        B_img1 = reader["B_img1"].ToString(),
+                    };
+
+                    ITEM_list.Add(itms);
 
                 }
                 reader.Close();
@@ -548,7 +548,7 @@ namespace book_admin
         {
             pop2.B_index = item_idx;
             pop2.ShowDialog();
-            
+
 
 
         }
@@ -609,7 +609,7 @@ namespace book_admin
                         GC.WaitForPendingFinalizers();
                     }
                     */
-                   // Debug.WriteLine(ex.Message);
+                    // Debug.WriteLine(ex.Message);
 
                 }
 
@@ -634,11 +634,11 @@ namespace book_admin
                 string sql_que = "select Max(B_index) from book_list ";
                 SQLiteCommand cmd = new SQLiteCommand(sql_que, conn);
                 SQLiteDataReader reader = cmd.ExecuteReader();
-                
+
                 DateTime dateTime = DateTime.Now;
                 string dateTime_str = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 reader.Read();
-                
+
                 int Max_value = 0;
                 //Debug.WriteLine(reader.GetValue(0).ToString());
                 if (reader.GetValue(0).ToString() == "")
@@ -652,7 +652,7 @@ namespace book_admin
                     Max_value = Int32.Parse(reader.GetValue(0).ToString());
                     Max_value++;
                     sql_que = "insert into book_list (B_index, B_regdate) VALUES (" + Max_value.ToString() + ", '" + dateTime_str + "')";
-                    
+
                 }
 
                 cmd = new SQLiteCommand(sql_que, conn);
@@ -684,7 +684,7 @@ namespace book_admin
                     GC.WaitForPendingFinalizers();
                 }
                 */
-               // Debug.WriteLine(ex.Message);
+                // Debug.WriteLine(ex.Message);
             }
 
         }
@@ -832,15 +832,15 @@ namespace book_admin
 
                 //Debug.WriteLine("book_list.db / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
                 //FTP 최신파일만 다운로드
-                if(date_result > 0)
+                if (date_result > 0)
                 {
-                  using (var client = new WebClient())
-                  {
-                    client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
-                    client.DownloadFile(file_path, local_path);
-                  }
-                  //날짜를 FTP날짜와 같게만듦
-                  File.SetLastWriteTime(local_path, ftp_modify);
+                    using (var client = new WebClient())
+                    {
+                        client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
+                        client.DownloadFile(file_path, local_path);
+                    }
+                    //날짜를 FTP날짜와 같게만듦
+                    File.SetLastWriteTime(local_path, ftp_modify);
 
                 }
                 label_state.Text = "다운로드 시작";
@@ -867,7 +867,7 @@ namespace book_admin
         {
             String thum_dir = e.Argument as String;
             DownloadFileList(thum_dir);
-//            e.Result = thum_dir;
+            //            e.Result = thum_dir;
 
         }
 
@@ -875,13 +875,13 @@ namespace book_admin
         void Download_Thum_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             int tmep = e.ProgressPercentage;
-            
+
             label_state.Text = server_file_now.ToString() + "/" + server_file_count.ToString();
         }
 
         private void Download_Thum_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-//            String thum_dir = e.Result.ToString();
+            //            String thum_dir = e.Result.ToString();
             label_state.Text = "다운로드 완료";
             db_connect();
             Serach_Start();
@@ -913,8 +913,8 @@ namespace book_admin
 
                 int date_result = DateTime.Compare(ftp_modify, local_modify);
 
-               // Debug.WriteLine("book_list.db / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
-                
+                // Debug.WriteLine("book_list.db / 로컬 : " + local_modify.ToString() + " / ftp : " + ftp_modify.ToString() + " / " + date_result.ToString());
+
                 //로컬 최신파일만 업로드
                 if (date_result < 0)
                 {
@@ -974,7 +974,7 @@ namespace book_admin
         {
             String thum_dir = e.Argument as String;
             UploadFileList(thum_dir);
-//            e.Result = thum_dir;
+            //            e.Result = thum_dir;
 
         }
 
@@ -986,7 +986,7 @@ namespace book_admin
 
         private void Upload_Thum_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-//            String thum_dir = e.Result.ToString();
+            //            String thum_dir = e.Result.ToString();
             label_state.Text = "업로드 완료";
         }
 
@@ -1107,7 +1107,7 @@ namespace book_admin
                         label_state.Text = "파일날자오류";
                     }
                 }
-                
+
             }
         }
 
@@ -1137,7 +1137,7 @@ namespace book_admin
             }
             streamReader.Close();
             server_file_count = directories.Count();
-           // Debug.WriteLine("처리해야할 파일수 : " + server_file_count.ToString());
+            // Debug.WriteLine("처리해야할 파일수 : " + server_file_count.ToString());
             // ftp 리스트를 돌린다.
             String remote_path, local_path;
             server_file_now = 0;
@@ -1221,7 +1221,7 @@ namespace book_admin
                     }
                 }
             }
-           
+
         }
 
 
@@ -1311,15 +1311,15 @@ namespace book_admin
             }
             catch (Exception ex)
             {
-/*
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();  //Sql연결 닫기
-                    GC.Collect();
-                    GC.WaitForPendingFinalizers();
-                }
-*/
-               // Debug.WriteLine(ex.Message);
+                /*
+                                if (conn.State == ConnectionState.Open)
+                                {
+                                    conn.Close();  //Sql연결 닫기
+                                    GC.Collect();
+                                    GC.WaitForPendingFinalizers();
+                                }
+                */
+                // Debug.WriteLine(ex.Message);
 
             }
         }

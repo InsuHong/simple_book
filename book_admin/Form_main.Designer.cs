@@ -28,251 +28,256 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.환경설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DB가져오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.combo_type = new System.Windows.Forms.ComboBox();
-            this.txt_search = new System.Windows.Forms.TextBox();
-            this.Btn_search = new System.Windows.Forms.Button();
-            this.Btn_add = new System.Windows.Forms.Button();
-            this.button_view32 = new System.Windows.Forms.Button();
-            this.button_view1 = new System.Windows.Forms.Button();
-            this.button_view2 = new System.Windows.Forms.Button();
-            this.button_view4 = new System.Windows.Forms.Button();
-            this.button_view24 = new System.Windows.Forms.Button();
-            this.button_view10 = new System.Windows.Forms.Button();
-            this.Panel_list = new System.Windows.Forms.TableLayoutPanel();
-            this.panel_page = new System.Windows.Forms.Panel();
-            this.label_state = new System.Windows.Forms.Label();
-            this.button_ftpup = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            파일ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            환경설정ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DB가져오기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            combo_type = new System.Windows.Forms.ComboBox();
+            txt_search = new System.Windows.Forms.TextBox();
+            Btn_search = new System.Windows.Forms.Button();
+            Btn_add = new System.Windows.Forms.Button();
+            button_view32 = new System.Windows.Forms.Button();
+            button_view1 = new System.Windows.Forms.Button();
+            button_view2 = new System.Windows.Forms.Button();
+            button_view4 = new System.Windows.Forms.Button();
+            button_view24 = new System.Windows.Forms.Button();
+            button_view10 = new System.Windows.Forms.Button();
+            Panel_list = new System.Windows.Forms.TableLayoutPanel();
+            panel_page = new System.Windows.Forms.Panel();
+            label_state = new System.Windows.Forms.Label();
+            button_ftpup = new System.Windows.Forms.Button();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.파일ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1305, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { 파일ToolStripMenuItem });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new System.Drawing.Size(1305, 24);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
             // 
             // 파일ToolStripMenuItem
             // 
-            this.파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.환경설정ToolStripMenuItem,
-            this.DB가져오기ToolStripMenuItem,
-            this.toolStripMenuItem1,
-            this.종료ToolStripMenuItem});
-            this.파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
-            this.파일ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.파일ToolStripMenuItem.Text = "환경설정";
+            파일ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { 환경설정ToolStripMenuItem, DB가져오기ToolStripMenuItem, toolStripMenuItem1, 종료ToolStripMenuItem });
+            파일ToolStripMenuItem.Name = "파일ToolStripMenuItem";
+            파일ToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            파일ToolStripMenuItem.Text = "환경설정";
             // 
             // 환경설정ToolStripMenuItem
             // 
-            this.환경설정ToolStripMenuItem.Name = "환경설정ToolStripMenuItem";
-            this.환경설정ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.환경설정ToolStripMenuItem.Text = "환경설정";
-            this.환경설정ToolStripMenuItem.Click += new System.EventHandler(this.환경설정ToolStripMenuItem_Click);
+            환경설정ToolStripMenuItem.Name = "환경설정ToolStripMenuItem";
+            환경설정ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            환경설정ToolStripMenuItem.Text = "환경설정";
+            환경설정ToolStripMenuItem.Click += 환경설정ToolStripMenuItem_Click;
             // 
             // DB가져오기ToolStripMenuItem
             // 
-            this.DB가져오기ToolStripMenuItem.Name = "DB가져오기ToolStripMenuItem";
-            this.DB가져오기ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.DB가져오기ToolStripMenuItem.Text = "DB가져오기";
-            this.DB가져오기ToolStripMenuItem.Click += new System.EventHandler(this.DB가져오기ToolStripMenuItem_Click);
+            DB가져오기ToolStripMenuItem.Name = "DB가져오기ToolStripMenuItem";
+            DB가져오기ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            DB가져오기ToolStripMenuItem.Text = "DB가져오기";
+            DB가져오기ToolStripMenuItem.Click += DB가져오기ToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(135, 6);
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(135, 6);
             // 
             // 종료ToolStripMenuItem
             // 
-            this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.종료ToolStripMenuItem.Text = "종료";
-            this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
+            종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
+            종료ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            종료ToolStripMenuItem.Text = "종료";
+            종료ToolStripMenuItem.Click += 종료ToolStripMenuItem_Click;
             // 
             // combo_type
             // 
-            this.combo_type.FormattingEnabled = true;
-            this.combo_type.Items.AddRange(new object[] {
-            "제목",
-            "비고",
-            "태그"});
-            this.combo_type.Location = new System.Drawing.Point(16, 811);
-            this.combo_type.Name = "combo_type";
-            this.combo_type.Size = new System.Drawing.Size(121, 20);
-            this.combo_type.TabIndex = 3;
-            this.combo_type.Text = "검색타입";
+            combo_type.FormattingEnabled = true;
+            combo_type.Items.AddRange(new object[] { "제목", "비고", "태그" });
+            combo_type.Location = new System.Drawing.Point(16, 895);
+            combo_type.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            combo_type.Name = "combo_type";
+            combo_type.Size = new System.Drawing.Size(121, 23);
+            combo_type.TabIndex = 3;
+            combo_type.Text = "검색타입";
             // 
             // txt_search
             // 
-            this.txt_search.Location = new System.Drawing.Point(144, 810);
-            this.txt_search.Name = "txt_search";
-            this.txt_search.Size = new System.Drawing.Size(208, 21);
-            this.txt_search.TabIndex = 4;
+            txt_search.Location = new System.Drawing.Point(144, 893);
+            txt_search.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            txt_search.Name = "txt_search";
+            txt_search.Size = new System.Drawing.Size(208, 23);
+            txt_search.TabIndex = 4;
             // 
             // Btn_search
             // 
-            this.Btn_search.Location = new System.Drawing.Point(359, 811);
-            this.Btn_search.Name = "Btn_search";
-            this.Btn_search.Size = new System.Drawing.Size(75, 23);
-            this.Btn_search.TabIndex = 5;
-            this.Btn_search.Text = "검색";
-            this.Btn_search.UseVisualStyleBackColor = true;
-            this.Btn_search.Click += new System.EventHandler(this.Btn_search_Click);
+            Btn_search.Location = new System.Drawing.Point(359, 895);
+            Btn_search.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            Btn_search.Name = "Btn_search";
+            Btn_search.Size = new System.Drawing.Size(75, 29);
+            Btn_search.TabIndex = 5;
+            Btn_search.Text = "검색";
+            Btn_search.UseVisualStyleBackColor = true;
+            Btn_search.Click += Btn_search_Click;
             // 
             // Btn_add
             // 
-            this.Btn_add.Location = new System.Drawing.Point(440, 811);
-            this.Btn_add.Name = "Btn_add";
-            this.Btn_add.Size = new System.Drawing.Size(69, 23);
-            this.Btn_add.TabIndex = 8;
-            this.Btn_add.Text = "등록";
-            this.Btn_add.UseVisualStyleBackColor = true;
-            this.Btn_add.Click += new System.EventHandler(this.Btn_add_Click);
+            Btn_add.Location = new System.Drawing.Point(440, 895);
+            Btn_add.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            Btn_add.Name = "Btn_add";
+            Btn_add.Size = new System.Drawing.Size(69, 29);
+            Btn_add.TabIndex = 8;
+            Btn_add.Text = "등록";
+            Btn_add.UseVisualStyleBackColor = true;
+            Btn_add.Click += Btn_add_Click;
             // 
             // button_view32
             // 
-            this.button_view32.Location = new System.Drawing.Point(783, 808);
-            this.button_view32.Name = "button_view32";
-            this.button_view32.Size = new System.Drawing.Size(30, 28);
-            this.button_view32.TabIndex = 81;
-            this.button_view32.Text = "32";
-            this.button_view32.UseVisualStyleBackColor = true;
-            this.button_view32.Click += new System.EventHandler(this.button_view32_Click);
+            button_view32.Location = new System.Drawing.Point(783, 891);
+            button_view32.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view32.Name = "button_view32";
+            button_view32.Size = new System.Drawing.Size(30, 35);
+            button_view32.TabIndex = 81;
+            button_view32.Text = "32";
+            button_view32.UseVisualStyleBackColor = true;
+            button_view32.Click += button_view32_Click;
             // 
             // button_view1
             // 
-            this.button_view1.Location = new System.Drawing.Point(638, 808);
-            this.button_view1.Name = "button_view1";
-            this.button_view1.Size = new System.Drawing.Size(30, 28);
-            this.button_view1.TabIndex = 80;
-            this.button_view1.Text = "1";
-            this.button_view1.UseVisualStyleBackColor = true;
-            this.button_view1.Click += new System.EventHandler(this.button_view1_Click);
+            button_view1.Location = new System.Drawing.Point(638, 891);
+            button_view1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view1.Name = "button_view1";
+            button_view1.Size = new System.Drawing.Size(30, 35);
+            button_view1.TabIndex = 80;
+            button_view1.Text = "1";
+            button_view1.UseVisualStyleBackColor = true;
+            button_view1.Click += button_view1_Click;
             // 
             // button_view2
             // 
-            this.button_view2.Location = new System.Drawing.Point(667, 808);
-            this.button_view2.Name = "button_view2";
-            this.button_view2.Size = new System.Drawing.Size(30, 28);
-            this.button_view2.TabIndex = 79;
-            this.button_view2.Text = "2";
-            this.button_view2.UseVisualStyleBackColor = true;
-            this.button_view2.Click += new System.EventHandler(this.button_view2_Click);
+            button_view2.Location = new System.Drawing.Point(667, 891);
+            button_view2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view2.Name = "button_view2";
+            button_view2.Size = new System.Drawing.Size(30, 35);
+            button_view2.TabIndex = 79;
+            button_view2.Text = "2";
+            button_view2.UseVisualStyleBackColor = true;
+            button_view2.Click += button_view2_Click;
             // 
             // button_view4
             // 
-            this.button_view4.Location = new System.Drawing.Point(696, 808);
-            this.button_view4.Name = "button_view4";
-            this.button_view4.Size = new System.Drawing.Size(30, 28);
-            this.button_view4.TabIndex = 78;
-            this.button_view4.Text = "4";
-            this.button_view4.UseVisualStyleBackColor = true;
-            this.button_view4.Click += new System.EventHandler(this.button_view4_Click);
+            button_view4.Location = new System.Drawing.Point(696, 891);
+            button_view4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view4.Name = "button_view4";
+            button_view4.Size = new System.Drawing.Size(30, 35);
+            button_view4.TabIndex = 78;
+            button_view4.Text = "4";
+            button_view4.UseVisualStyleBackColor = true;
+            button_view4.Click += button_view4_Click;
             // 
             // button_view24
             // 
-            this.button_view24.Location = new System.Drawing.Point(754, 808);
-            this.button_view24.Name = "button_view24";
-            this.button_view24.Size = new System.Drawing.Size(30, 28);
-            this.button_view24.TabIndex = 77;
-            this.button_view24.Text = "24";
-            this.button_view24.UseVisualStyleBackColor = true;
-            this.button_view24.Click += new System.EventHandler(this.button_view24_Click);
+            button_view24.Location = new System.Drawing.Point(754, 891);
+            button_view24.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view24.Name = "button_view24";
+            button_view24.Size = new System.Drawing.Size(30, 35);
+            button_view24.TabIndex = 77;
+            button_view24.Text = "24";
+            button_view24.UseVisualStyleBackColor = true;
+            button_view24.Click += button_view24_Click;
             // 
             // button_view10
             // 
-            this.button_view10.Location = new System.Drawing.Point(725, 808);
-            this.button_view10.Name = "button_view10";
-            this.button_view10.Size = new System.Drawing.Size(30, 28);
-            this.button_view10.TabIndex = 76;
-            this.button_view10.Text = "10";
-            this.button_view10.UseVisualStyleBackColor = true;
-            this.button_view10.Click += new System.EventHandler(this.button_view10_Click);
+            button_view10.Location = new System.Drawing.Point(725, 891);
+            button_view10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_view10.Name = "button_view10";
+            button_view10.Size = new System.Drawing.Size(30, 35);
+            button_view10.TabIndex = 76;
+            button_view10.Text = "10";
+            button_view10.UseVisualStyleBackColor = true;
+            button_view10.Click += button_view10_Click;
             // 
             // Panel_list
             // 
-            this.Panel_list.ColumnCount = 2;
-            this.Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Panel_list.Dock = System.Windows.Forms.DockStyle.Top;
-            this.Panel_list.Location = new System.Drawing.Point(0, 24);
-            this.Panel_list.Name = "Panel_list";
-            this.Panel_list.RowCount = 2;
-            this.Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.Panel_list.Size = new System.Drawing.Size(1305, 736);
-            this.Panel_list.TabIndex = 82;
+            Panel_list.ColumnCount = 2;
+            Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            Panel_list.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            Panel_list.Dock = System.Windows.Forms.DockStyle.Top;
+            Panel_list.Location = new System.Drawing.Point(0, 24);
+            Panel_list.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            Panel_list.Name = "Panel_list";
+            Panel_list.RowCount = 2;
+            Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            Panel_list.Size = new System.Drawing.Size(1305, 809);
+            Panel_list.TabIndex = 82;
             // 
             // panel_page
             // 
-            this.panel_page.AutoScroll = true;
-            this.panel_page.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_page.Location = new System.Drawing.Point(0, 760);
-            this.panel_page.Name = "panel_page";
-            this.panel_page.Size = new System.Drawing.Size(1305, 49);
-            this.panel_page.TabIndex = 83;
+            panel_page.AutoScroll = true;
+            panel_page.Dock = System.Windows.Forms.DockStyle.Top;
+            panel_page.Location = new System.Drawing.Point(0, 833);
+            panel_page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            panel_page.Name = "panel_page";
+            panel_page.Size = new System.Drawing.Size(1305, 54);
+            panel_page.TabIndex = 83;
             // 
             // label_state
             // 
-            this.label_state.Location = new System.Drawing.Point(826, 812);
-            this.label_state.Name = "label_state";
-            this.label_state.Size = new System.Drawing.Size(126, 17);
-            this.label_state.TabIndex = 84;
-            this.label_state.Text = "...";
+            label_state.Location = new System.Drawing.Point(826, 896);
+            label_state.Name = "label_state";
+            label_state.Size = new System.Drawing.Size(126, 21);
+            label_state.TabIndex = 84;
+            label_state.Text = "...";
             // 
             // button_ftpup
             // 
-            this.button_ftpup.Location = new System.Drawing.Point(515, 811);
-            this.button_ftpup.Name = "button_ftpup";
-            this.button_ftpup.Size = new System.Drawing.Size(79, 23);
-            this.button_ftpup.TabIndex = 85;
-            this.button_ftpup.Text = "DB내보내기";
-            this.button_ftpup.UseVisualStyleBackColor = true;
-            this.button_ftpup.Click += new System.EventHandler(this.button_ftpup_Click);
+            button_ftpup.Location = new System.Drawing.Point(515, 895);
+            button_ftpup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            button_ftpup.Name = "button_ftpup";
+            button_ftpup.Size = new System.Drawing.Size(79, 29);
+            button_ftpup.TabIndex = 85;
+            button_ftpup.Text = "DB내보내기";
+            button_ftpup.UseVisualStyleBackColor = true;
+            button_ftpup.Click += button_ftpup_Click;
             // 
             // Form_main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1305, 840);
-            this.Controls.Add(this.button_ftpup);
-            this.Controls.Add(this.label_state);
-            this.Controls.Add(this.panel_page);
-            this.Controls.Add(this.Panel_list);
-            this.Controls.Add(this.button_view32);
-            this.Controls.Add(this.button_view1);
-            this.Controls.Add(this.button_view2);
-            this.Controls.Add(this.button_view4);
-            this.Controls.Add(this.button_view24);
-            this.Controls.Add(this.button_view10);
-            this.Controls.Add(this.Btn_add);
-            this.Controls.Add(this.Btn_search);
-            this.Controls.Add(this.txt_search);
-            this.Controls.Add(this.combo_type);
-            this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "Form_main";
-            this.Text = "책정보";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_main_FormClosing);
-            this.Load += new System.EventHandler(this.Form_main_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            ClientSize = new System.Drawing.Size(1305, 929);
+            Controls.Add(button_ftpup);
+            Controls.Add(label_state);
+            Controls.Add(panel_page);
+            Controls.Add(Panel_list);
+            Controls.Add(button_view32);
+            Controls.Add(button_view1);
+            Controls.Add(button_view2);
+            Controls.Add(button_view4);
+            Controls.Add(button_view24);
+            Controls.Add(button_view10);
+            Controls.Add(Btn_add);
+            Controls.Add(Btn_search);
+            Controls.Add(txt_search);
+            Controls.Add(combo_type);
+            Controls.Add(menuStrip1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
+            Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "Form_main";
+            Text = "책정보";
+            FormClosing += Form_main_FormClosing;
+            Load += Form_main_Load;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
