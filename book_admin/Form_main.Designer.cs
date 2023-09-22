@@ -97,7 +97,7 @@
             // 
             combo_type.FormattingEnabled = true;
             combo_type.Items.AddRange(new object[] { "제목", "비고", "태그" });
-            combo_type.Location = new System.Drawing.Point(16, 895);
+            combo_type.Location = new System.Drawing.Point(17, 755);
             combo_type.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             combo_type.Name = "combo_type";
             combo_type.Size = new System.Drawing.Size(121, 23);
@@ -106,7 +106,7 @@
             // 
             // txt_search
             // 
-            txt_search.Location = new System.Drawing.Point(144, 893);
+            txt_search.Location = new System.Drawing.Point(145, 753);
             txt_search.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             txt_search.Name = "txt_search";
             txt_search.Size = new System.Drawing.Size(208, 23);
@@ -114,7 +114,7 @@
             // 
             // Btn_search
             // 
-            Btn_search.Location = new System.Drawing.Point(359, 895);
+            Btn_search.Location = new System.Drawing.Point(360, 750);
             Btn_search.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             Btn_search.Name = "Btn_search";
             Btn_search.Size = new System.Drawing.Size(75, 29);
@@ -125,7 +125,7 @@
             // 
             // Btn_add
             // 
-            Btn_add.Location = new System.Drawing.Point(440, 895);
+            Btn_add.Location = new System.Drawing.Point(441, 750);
             Btn_add.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             Btn_add.Name = "Btn_add";
             Btn_add.Size = new System.Drawing.Size(69, 29);
@@ -136,7 +136,7 @@
             // 
             // button_view32
             // 
-            button_view32.Location = new System.Drawing.Point(783, 891);
+            button_view32.Location = new System.Drawing.Point(784, 746);
             button_view32.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view32.Name = "button_view32";
             button_view32.Size = new System.Drawing.Size(30, 35);
@@ -147,7 +147,7 @@
             // 
             // button_view1
             // 
-            button_view1.Location = new System.Drawing.Point(638, 891);
+            button_view1.Location = new System.Drawing.Point(639, 746);
             button_view1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view1.Name = "button_view1";
             button_view1.Size = new System.Drawing.Size(30, 35);
@@ -158,7 +158,7 @@
             // 
             // button_view2
             // 
-            button_view2.Location = new System.Drawing.Point(667, 891);
+            button_view2.Location = new System.Drawing.Point(668, 746);
             button_view2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view2.Name = "button_view2";
             button_view2.Size = new System.Drawing.Size(30, 35);
@@ -169,7 +169,7 @@
             // 
             // button_view4
             // 
-            button_view4.Location = new System.Drawing.Point(696, 891);
+            button_view4.Location = new System.Drawing.Point(697, 746);
             button_view4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view4.Name = "button_view4";
             button_view4.Size = new System.Drawing.Size(30, 35);
@@ -180,7 +180,7 @@
             // 
             // button_view24
             // 
-            button_view24.Location = new System.Drawing.Point(754, 891);
+            button_view24.Location = new System.Drawing.Point(755, 746);
             button_view24.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view24.Name = "button_view24";
             button_view24.Size = new System.Drawing.Size(30, 35);
@@ -191,7 +191,7 @@
             // 
             // button_view10
             // 
-            button_view10.Location = new System.Drawing.Point(725, 891);
+            button_view10.Location = new System.Drawing.Point(726, 746);
             button_view10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_view10.Name = "button_view10";
             button_view10.Size = new System.Drawing.Size(30, 35);
@@ -212,22 +212,22 @@
             Panel_list.RowCount = 2;
             Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             Panel_list.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            Panel_list.Size = new System.Drawing.Size(1305, 809);
+            Panel_list.Size = new System.Drawing.Size(1305, 661);
             Panel_list.TabIndex = 82;
             // 
             // panel_page
             // 
             panel_page.AutoScroll = true;
             panel_page.Dock = System.Windows.Forms.DockStyle.Top;
-            panel_page.Location = new System.Drawing.Point(0, 833);
+            panel_page.Location = new System.Drawing.Point(0, 685);
             panel_page.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             panel_page.Name = "panel_page";
-            panel_page.Size = new System.Drawing.Size(1305, 54);
+            panel_page.Size = new System.Drawing.Size(1305, 59);
             panel_page.TabIndex = 83;
             // 
             // label_state
             // 
-            label_state.Location = new System.Drawing.Point(826, 896);
+            label_state.Location = new System.Drawing.Point(827, 751);
             label_state.Name = "label_state";
             label_state.Size = new System.Drawing.Size(126, 21);
             label_state.TabIndex = 84;
@@ -235,7 +235,7 @@
             // 
             // button_ftpup
             // 
-            button_ftpup.Location = new System.Drawing.Point(515, 895);
+            button_ftpup.Location = new System.Drawing.Point(516, 750);
             button_ftpup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             button_ftpup.Name = "button_ftpup";
             button_ftpup.Size = new System.Drawing.Size(79, 29);
@@ -249,7 +249,7 @@
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            ClientSize = new System.Drawing.Size(1305, 929);
+            ClientSize = new System.Drawing.Size(1305, 788);
             Controls.Add(button_ftpup);
             Controls.Add(label_state);
             Controls.Add(panel_page);
