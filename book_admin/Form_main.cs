@@ -29,6 +29,7 @@ namespace book_admin
         Form_view pop2;
         public static String connStr;
         string ftp_server;
+        string ftp_port = "21";
         string ftp_path;
         string ftp_file = "/data/db/book_list.db";
         string ftp_user;
@@ -147,6 +148,7 @@ namespace book_admin
             ini.Load(Application.StartupPath + "\\setup.ini");
 
             ftp_server = ini["Simple Book Config"]["ftp_server"].ToString();
+            ftp_port = ini["Simple Book Config"]["ftp_port"].ToString();
             ftp_path = ini["Simple Book Config"]["ftp_path"].ToString();
             ftp_user = ini["Simple Book Config"]["ftp_user"].ToString();
             ftp_pwd = ini["Simple Book Config"]["ftp_pwd"].ToString();
@@ -818,7 +820,7 @@ namespace book_admin
 
         void ftp_download()
         {
-            string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
+            string file_path = "ftp://" + ftp_server  + ":" + ftp_port + ftp_path   + ftp_file;
             string local_path = Application.StartupPath + @"\data\db\book_list.db";
             try
             {
@@ -898,7 +900,8 @@ namespace book_admin
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            string file_path = "ftp://" + ftp_server + ftp_path + ftp_file;
+            string file_path = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + ftp_file;
+            Debug.WriteLine(file_path);
             string local_path = Application.StartupPath + @"\data\db\book_list.db";
             try
             {
@@ -996,7 +999,7 @@ namespace book_admin
         private void UploadFileList(string source)
         {
             // 업로드할 경로의 속성을 구한다.
-            string url = "ftp://" + ftp_server + ftp_path + source;
+            string url = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + source;
             String file_path = Application.StartupPath + source;
             var attr = File.GetAttributes(file_path);
             String temp_file;
@@ -1042,7 +1045,7 @@ namespace book_admin
             else
             {
                 // 디렉토리가 아닌 파일을 경우인데, 파일의 stream을 취득한다.
-                String remote_path = "ftp://" + ftp_server + ftp_path + source.Replace(@"\", "/");
+                String remote_path = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + source.Replace(@"\", "/");
                 //Debug.WriteLine(remote_path);
                 //원격 파일사이즈
                 /*
@@ -1115,7 +1118,7 @@ namespace book_admin
 
         private void DownloadFileList(string target)
         {
-            string url = "ftp://" + ftp_server + ftp_path + target.Replace(@"\", "/");
+            string url = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + target.Replace(@"\", "/");
             FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(url);
             ftpRequest.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
             ftpRequest.Method = WebRequestMethods.Ftp.ListDirectory;
@@ -1150,7 +1153,7 @@ namespace book_admin
                         // 파일을 다운로드한다.
                         //Debug.WriteLine(item);
                         server_file_now++;
-                        remote_path = "ftp://" + ftp_server + ftp_path + target + @"/" + item;
+                        remote_path = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + target + @"/" + item;
                         local_path = Application.StartupPath + target + @"\" + item;
                         download_thum.ReportProgress(server_file_now);
 

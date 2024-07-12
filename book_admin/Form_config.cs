@@ -24,6 +24,7 @@ namespace book_admin
             IniFile ini = new IniFile();
             ini.Load(Application.StartupPath + "\\setup.ini");
             text_sever.Text = ini["Simple Book Config"]["ftp_server"].ToString();
+            text_port.Text = ini["Simple Book Config"]["ftp_port"].ToString();
             text_Path.Text = ini["Simple Book Config"]["ftp_path"].ToString();
             text_Id.Text = ini["Simple Book Config"]["ftp_user"].ToString();
             text_Pass.Text = ini["Simple Book Config"]["ftp_pwd"].ToString();
@@ -38,6 +39,7 @@ namespace book_admin
             IniFile ini = new IniFile();
             ini.Load(Application.StartupPath + "\\setup.ini");
             ini["Simple Book Config"]["ftp_server"] = text_sever.Text;
+            ini["Simple Book Config"]["ftp_port"] = text_port.Text;
             ini["Simple Book Config"]["ftp_path"] = text_Path.Text;
             ini["Simple Book Config"]["ftp_user"] = text_Id.Text;
             ini["Simple Book Config"]["ftp_pwd"] = text_Pass.Text;
