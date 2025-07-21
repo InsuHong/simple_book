@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <AssemblyName>book</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -15,11 +15,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.118.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118.0" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.118.0" />
-    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.119" />
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
   </ItemGroup>
 </Project>

@@ -5,11 +5,13 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace book_admin
 {
@@ -200,7 +202,16 @@ namespace book_admin
                     Bitmap si = new Bitmap(files[0]);
                     reSize = new Size(150, 200);
                     Bitmap reSizeImg = new Bitmap(si, reSize);
-                    reSizeImg.Save(targetPath);
+
+                    ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
+                    System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                    EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                    EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+                    myEncoderParameters.Param[0] = myEncoderParameter;
+                    reSizeImg.Save(targetPath, jpegCodec, myEncoderParameters);
+
+
+                    //reSizeImg.Save(targetPath);
                     thum_file = out_file;
                 }
                 catch (Exception ex)
@@ -269,6 +280,15 @@ namespace book_admin
             nn--;
             if (nn < 0) nn = 0;
             txt_now_novel.Text = nn.ToString();
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
+        {
+            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageEncoders())
+                if (codec.MimeType == mimeType)
+                    return codec;
+
+            return null;
         }
     }
 }
