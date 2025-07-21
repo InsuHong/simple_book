@@ -48,6 +48,7 @@
             panel_page = new System.Windows.Forms.Panel();
             label_state = new System.Windows.Forms.Label();
             button_ftpup = new System.Windows.Forms.Button();
+            button_resize = new System.Windows.Forms.Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -244,12 +245,23 @@
             button_ftpup.UseVisualStyleBackColor = true;
             button_ftpup.Click += button_ftpup_Click;
             // 
+            // button_resize
+            // 
+            button_resize.Location = new System.Drawing.Point(961, 751);
+            button_resize.Name = "button_resize";
+            button_resize.Size = new System.Drawing.Size(117, 23);
+            button_resize.TabIndex = 86;
+            button_resize.Text = "이미지크기줄이기";
+            button_resize.UseVisualStyleBackColor = true;
+            button_resize.Click += button_resize_Click;
+            // 
             // Form_main
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             ClientSize = new System.Drawing.Size(1305, 788);
+            Controls.Add(button_resize);
             Controls.Add(button_ftpup);
             Controls.Add(label_state);
             Controls.Add(panel_page);
@@ -302,6 +314,7 @@
         private System.Windows.Forms.Button button_ftpup;
         private System.Windows.Forms.ToolStripMenuItem 환경설정ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.Button button_resize;
     }
 }
 

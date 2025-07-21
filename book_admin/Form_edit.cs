@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,11 +64,25 @@ namespace book_admin
 
                 //FileInfo.Exists로 파일 존재유무 확인
                 thum_file = reader["B_img1"].ToString();
-                String img1    = Application.StartupPath + @"\data\thum\" + thum_file;
+                textBox_imgfile.Text = thum_file;
+
+
+                
+                String img1 = Application.StartupPath + @"\data\thum\" + thum_file;
                 FileInfo fi1 = new FileInfo(img1);
                 if (fi1.Exists)
                 {
-                    pic_input.Image = Image.FromFile(img1);
+                    label_filesize.Text = String.Format("{0:##.##}", fi1.Length / 1024.0) + " KB";
+                    //   pic_input.Image = Image.FromFile(img1);  //파일이 락이 걸려 쓰기가 안됨
+                    FileStream stream = new System.IO.FileStream(img1, FileMode.Open, FileAccess.Read);
+                    using (BinaryReader reader1 = new BinaryReader(stream))
+                    {
+                        // copy the content of the file into a memory stream
+                        var memoryStream = new MemoryStream(reader1.ReadBytes((int)stream.Length));
+                        // make a new Bitmap object the owner of the MemoryStream
+                        pic_input.Image = new Bitmap(memoryStream);
+
+                    }
                 }
                 else
                 {
@@ -76,16 +91,16 @@ namespace book_admin
 
                 if (conn.State == ConnectionState.Open)
                 {
-                  //  conn.Close();
-                   // GC.Collect();
-                   // GC.WaitForPendingFinalizers();
+                    //  conn.Close();
+                    // GC.Collect();
+                    // GC.WaitForPendingFinalizers();
                 }
                 reader.Close();
 
             }
             catch (Exception ex)
             {
-              //  if (conn.State == ConnectionState.Open) conn.Close();  //Sql연결 닫기
+                //  if (conn.State == ConnectionState.Open) conn.Close();  //Sql연결 닫기
                 Debug.WriteLine("EX03" + ex.Message);
 
             }
@@ -96,7 +111,7 @@ namespace book_admin
 
 
 
-  
+
 
         private void pic_input_DragEnter(object sender, DragEventArgs e)
         {
@@ -135,9 +150,9 @@ namespace book_admin
 
                 SQLiteCommand cmd = new SQLiteCommand(sql_que, conn);
                 Debug.WriteLine(sql_que);
-                
+
                 cmd.ExecuteNonQuery();
-                
+
                 /*
                 if (conn.State == ConnectionState.Open) 
                 {
@@ -153,7 +168,7 @@ namespace book_admin
             catch (Exception ex)
             {
                 //if (conn.State == ConnectionState.Open) conn.Close();  //Sql연결 닫기
-                Debug.WriteLine( "EX02"+ ex.Message);
+                Debug.WriteLine("EX02" + ex.Message);
 
             }
 
@@ -216,7 +231,7 @@ namespace book_admin
                 }
                 catch (Exception ex)
                 {
-                    
+
                     Debug.WriteLine("EX06" + ex.Message);
                 }
             }
@@ -228,7 +243,7 @@ namespace book_admin
                 }
                 catch (Exception ex)
                 {
-                    
+
                     Debug.WriteLine("EX05" + ex.Message);
                 }
 
@@ -281,6 +296,110 @@ namespace book_admin
             if (nn < 0) nn = 0;
             txt_now_novel.Text = nn.ToString();
         }
+        private void button_resize_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String img1 = Application.StartupPath + @"\data\thum\" + thum_file;
+//                Debug.WriteLine("이미지 경로" + img1);
+
+
+                Bitmap timg = (Bitmap) pic_input.Image;
+                timg = resize_bitmap(timg, 150, 200);
+
+
+                ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
+                System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+                myEncoderParameters.Param[0] = myEncoderParameter;
+                timg.Save(img1, jpegCodec, myEncoderParameters);
+
+                //파일크기 다시확인
+                FileInfo fi1 = new FileInfo(img1);
+                if (fi1.Exists)
+                {
+                    label_filesize.Text = String.Format("{0:##.##}", fi1.Length / 1024.0) + " KB";
+                }
+
+
+
+             }
+            catch { }
+
+        }
+
+
+        public Bitmap LoadBitmap(string path)
+        {
+
+
+
+            try
+            {
+                FileInfo zfi = new FileInfo(path);
+                if (zfi.Exists)
+                {
+                    // open file in read only mode
+
+                    // get a binary reader for the file stream
+                    Bitmap result = null;
+                    string f_ext = Path.GetExtension(path).Replace(".", "").ToLower();
+                    if (f_ext == "jpg" || f_ext == "jpeg" || f_ext == "gif" || f_ext == "png" || f_ext == "bmp" || f_ext == "his")
+                    {
+                        FileStream stream = new System.IO.FileStream(path, FileMode.Open, FileAccess.Read);
+                        using (BinaryReader reader = new BinaryReader(stream))
+                        {
+                            // copy the content of the file into a memory stream
+                            var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
+                            // make a new Bitmap object the owner of the MemoryStream
+                            result = resize_bitmap(new Bitmap(memoryStream), 2732, 2400);
+
+                        }
+                    }
+
+
+
+                    return result;
+                }
+                else
+                {
+                    //        MessageBox.Show("Error Loading File.", "Error!", MessageBoxButtons.OK);
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        private static Bitmap resize_bitmap(Bitmap mkimg, int max_width, int max_height)
+        {
+
+            //int max_width = 2732, max_height = 2400;
+            Bitmap croppedBitmap = mkimg;
+            if (mkimg.Width > max_width || mkimg.Height > max_height)
+            {
+
+                double ratioX = max_width / (double)mkimg.Width;
+                double ratioY = max_height / (double)mkimg.Height;
+                double ratio = Math.Min(ratioX, ratioY);
+
+
+                int newWidth = (int)(mkimg.Width * ratio);
+                int newHeight = (int)(mkimg.Height * ratio);
+
+                Size resize = new Size(newWidth, newHeight);
+                croppedBitmap = new Bitmap(mkimg, resize);
+
+
+
+            }
+
+            return croppedBitmap;
+        }  // eof
+
 
         private static ImageCodecInfo GetEncoderInfo(string mimeType)
         {
@@ -290,5 +409,7 @@ namespace book_admin
 
             return null;
         }
+
+
     }
 }

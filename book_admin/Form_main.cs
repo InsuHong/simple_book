@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -308,9 +309,26 @@ namespace book_admin
             if (fi.Exists)
             {
                 //                pic_thum.Load(img_path);  //파일 프로세스 점유하고있음
-                System.IO.StreamReader pimg = new System.IO.StreamReader(img_path);
-                pic_thum.Image = Image.FromStream(pimg.BaseStream);
-                pimg.Dispose();
+                //System.IO.StreamReader pimg = new System.IO.StreamReader(img_path);
+                //pic_thum.Image = Image.FromStream(pimg.BaseStream);
+                //pimg.Dispose();
+                // 파일을 못읽어 들이는 경우 있음
+                try
+                {
+                    FileStream stream = new System.IO.FileStream(img_path, FileMode.Open, FileAccess.Read);
+                    using (BinaryReader reader = new BinaryReader(stream))
+                    {
+                        // copy the content of the file into a memory stream
+                        var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
+                        // make a new Bitmap object the owner of the MemoryStream
+                        pic_thum.Image = new Bitmap(memoryStream);
+
+                    }
+                }
+                catch { }
+
+
+
             }
             Label label_blank1 = new Label()
             {
@@ -820,7 +838,7 @@ namespace book_admin
 
         void ftp_download()
         {
-            string file_path = "ftp://" + ftp_server  + ":" + ftp_port + ftp_path   + ftp_file;
+            string file_path = "ftp://" + ftp_server + ":" + ftp_port + ftp_path + ftp_file;
             string local_path = Application.StartupPath + @"\data\db\book_list.db";
             try
             {
@@ -1208,6 +1226,9 @@ namespace book_admin
                             {
                                 client.Credentials = new NetworkCredential(ftp_user, ftp_pwd);
                                 client.DownloadFile(remote_path, local_path);
+                                DirectoryInfo dir = new DirectoryInfo(local_path);
+                                if (dir.Exists) dir.Delete();  //잘못만들어진 디렉토리인경우 삭제
+
                                 //수정날짜를 FPT날짜와 같게 만듬
                                 File.SetLastWriteTime(local_path, ftp_modify);
                             }
@@ -1325,6 +1346,92 @@ namespace book_admin
                 // Debug.WriteLine(ex.Message);
 
             }
+        }
+
+        private void button_resize_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DirectoryInfo di = new DirectoryInfo(Application.StartupPath + @"\data/thum2");
+                if (di.Exists == false) di.Create();
+
+                if (conn.State != ConnectionState.Open) conn.Open();   //Sql연결 열기
+
+                string sql_que = "select * from book_list";
+                SQLiteCommand cmd = new SQLiteCommand(sql_que, conn);
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                ITEM_list = new ArrayList(); //초기화
+                ITEMS itms;
+                while (reader.Read())
+                {
+                    String img_path = Application.StartupPath + "\\data\\thum\\" + reader["B_img1"].ToString();
+                    String out_path = Application.StartupPath + "\\data\\thum2\\" + reader["B_img1"].ToString();
+
+                    FileStream stream = new System.IO.FileStream(img_path, FileMode.Open, FileAccess.Read);
+                    using (BinaryReader reader1 = new BinaryReader(stream))
+                    {
+                        // copy the content of the file into a memory stream
+                        var memoryStream = new MemoryStream(reader1.ReadBytes((int)stream.Length));
+                        // make a new Bitmap object the owner of the MemoryStream
+                        Bitmap timg = resize_bitmap(new Bitmap(memoryStream), 150, 200);
+
+                        ImageCodecInfo jpegCodec = GetEncoderInfo("image/jpeg");
+                        System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                        EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                        EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 50L);
+                        myEncoderParameters.Param[0] = myEncoderParameter;
+                        timg.Save(out_path, jpegCodec, myEncoderParameters);
+
+
+                    }
+
+
+
+                }
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+
+
+        private static Bitmap resize_bitmap(Bitmap mkimg, int max_width, int max_height)
+        {
+
+            //int max_width = 2732, max_height = 2400;
+            Bitmap croppedBitmap = mkimg;
+            if (mkimg.Width > max_width || mkimg.Height > max_height)
+            {
+
+                double ratioX = max_width / (double)mkimg.Width;
+                double ratioY = max_height / (double)mkimg.Height;
+                double ratio = Math.Min(ratioX, ratioY);
+
+
+                int newWidth = (int)(mkimg.Width * ratio);
+                int newHeight = (int)(mkimg.Height * ratio);
+
+                Size resize = new Size(newWidth, newHeight);
+                croppedBitmap = new Bitmap(mkimg, resize);
+
+
+
+            }
+
+            return croppedBitmap;
+        }  // eof
+
+
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
+        {
+            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageEncoders())
+                if (codec.MimeType == mimeType)
+                    return codec;
+
+            return null;
         }
 
 
